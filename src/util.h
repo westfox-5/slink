@@ -2,7 +2,7 @@
 
 #include <string>
 #include <sstream>
-#include<limits>    // for INFINITY
+#include <limits>   // for INFINITY
 #include <iomanip>  // for double-to-string conversion
 
 constexpr double INF = std::numeric_limits<double>::infinity();
@@ -14,9 +14,8 @@ std::string putlocation(const std::string filename, int row, int col) {
 }
 
 static std::string format(double num) {
-    if (num == INF) {
+    if (num == INF)
         return "INF";
-    }
     std::ostringstream oss;
     oss << std::setprecision(3);
     oss << num;

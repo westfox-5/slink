@@ -4,12 +4,23 @@
 #include <string>
 #include <fstream>
 #include <vector>
-#include <cassert>
 
 #include "util.h"
 
-class ColMajorMatrix {
+class Matrix {
+protected:
+    long dimension;
 
+public:
+    virtual int indexOf(int i, int j) = 0;
+    virtual double valueAt(int row, int col) = 0;
+
+    virtual void print() = 0;
+
+    long getDimension() { return dimension; }
+};
+
+class ColMajorMatrix : public Matrix {
 private:
     // Store the matrix in a linear vector.
     // since it is a triangular square matrix, we can safely store only half of the matrix, without the diagonal.
@@ -21,8 +32,6 @@ private:
     std::string filename;
 
 public:
-    long N;
-
     ColMajorMatrix(std::string inFilename);
     void print();
 
@@ -51,32 +60,41 @@ ColMajorMatrix::ColMajorMatrix(std::string inFilename)
     std::string line;
 
     if ( !inFile.is_open() ) { 
-        std::cerr << putlocation(inFilename, 0, 0) << ": ERROR: could not open file '" << inFilename << "'." << std::endl;
+        std::cerr << putlocation(inFilename, 0, 0) << ": ERROR: could not open file." << std::endl;
         exit(1);
     }
 
     if ( inFile.eof() ) {	  
-        std::cerr << putlocation(inFilename, 0, 0) << ": ERROR: expecting first line of the input file '" << inFilename << "' to contain ROW and COL values separated by space" << std::endl;
+        std::cerr << putlocation(inFilename, 0, 0) << ": ERROR: expecting first line to contain dimension of the matrix." << std::endl;
         exit(1);
     }
     
-    int rows, cols;
-    inFile >> rows;
-    inFile >> cols;
+    int N;
+    inFile >> N;
 
-    if ( rows != cols ) {
-        std::cerr << putlocation(inFilename, 0, 0) << ": ERROR: expecting a square matrix in input file '" << inFilename << "'." << std::endl;
+    if ( N < 0 ) {
+        std::cerr << putlocation(inFilename, 0, 0) << ": ERROR: expecting a square matrix." << std::endl;
         exit(1);
     } 
 
-    long size = rows *(rows-1) /2;
-    this->N = rows;
+    long size = N*(N-1)/2;
+    this->dimension = N;
     this->vec.reserve(size);
-    
+
     std::string in;
-    for (int col=0; col<cols; ++col) {
-        for (int row=0; row<rows; ++row) {
-            inFile >> in;
+    for (int col=0; col<N; ++col) {
+        for (int row=0; row<N; ++row) {
+            
+            // check unexpected EOF
+            if ( inFile.eof() ) {
+                std::cerr << putlocation(inFilename, row, col) << ": ERROR: unexpected EOF." << std::endl;
+                exit(1);
+            } 
+
+            // read next token as string
+            inFile >> in; 
+
+            // only store the half-top of the matrix, diagonal excluded
             if (row < col) {
                 this->vec.push_back( atof(in.c_str()) );
             }
@@ -87,8 +105,9 @@ ColMajorMatrix::ColMajorMatrix(std::string inFilename)
 void ColMajorMatrix::print() {
 //   printVector(this->vec);
 
-    for (int col=0; col<this->N; ++col) {
-        for (int row=0; row<this->N; ++row) {
+    std::cout << "Dimension: " << this->dimension << std::endl;
+    for (int col=0; col<this->dimension; ++col) {
+        for (int row=0; row<this->dimension; ++row) {
             
             std::cout << "[" << row << "," << col << "]:" << this->valueAt(row, col) << " ";
         }

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "col_major.h"
+#include "matrix.h"
 #include "slink.h"
 
 void usage(std::string name) 
@@ -15,20 +15,19 @@ int main(int argc, char* const argv[]) {
        exit(1);
     }
 
-    ColMajorMatrix matrix(argv[1]);
-    //matrix.print();
+    Matrix *matrix = new ColMajorMatrix(argv[1]);
+    // matrix->print();
     //std::cout << "------------" << std::endl;
 
-    Slink slink;
-    slink.execute(&matrix);
+    Slink slink = Slink::execute(matrix);
     
     std::cout << "PI:" << std::endl;
     printVector(slink.getPi());
     std::cout << "------------" << std::endl;
-
     std::cout << "LAMBDA:" << std::endl;
     printVector(slink.getLambda());
-    std::cout << "------------" << std::endl;
+
+    delete matrix;
 
     return 0;
 }
