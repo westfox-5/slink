@@ -5,11 +5,11 @@ import time
 from os import listdir
 from os.path import isfile, join
 
-testDir = './tests'
+testDir = './examples'
 exe = './cluster'
 
 def compile():
-    cmd = f"g++ src/main.cpp -o {exe}"
+    cmd = f"./build.sh"
     print(f"Compiling: `{cmd}`")
     process = subprocess.Popen(shlex.split(cmd))
     process.wait()

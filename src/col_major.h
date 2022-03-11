@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -6,7 +8,6 @@
 
 #include "util.h"
 
-template <typename T>
 class ColMajorMatrix {
 
 private:
@@ -16,31 +17,33 @@ private:
     //      Sum[i;1;N]{N-i}
     // which is
     //      N * (N-1) / 2
-    std::vector<T> vec;
-    long N;
-
+    std::vector<double> vec;
     std::string filename;
 
 public:
+    long N;
+
     ColMajorMatrix(std::string inFilename);
     void print();
 
     int indexOf(int i, int j) {
-        if (i <= j)
-            return ((j * (j - 1)) / 2) + i;
-        return -1;
+        int max = i > j ? i : j;
+        int min = i < j ? i : j;
+        return ((max * (max - 1)) / 2) + min;
     }
 
-    T valueAt(int row, int col) {
+    double valueAt(int row, int col) {
+        if (row == col) 
+            return 0;
         int indexOf = this->indexOf(row, col);
-        if (indexOf > -1)
+        if (indexOf > -1 && indexOf < this->vec.size())
             return this->vec.at(indexOf);
-        return NULL;
+        
+        return -1;
     }
 };
 
-template <typename in_type>
-ColMajorMatrix<in_type>::ColMajorMatrix(std::string inFilename)
+ColMajorMatrix::ColMajorMatrix(std::string inFilename)
 {
     this->filename = inFilename;
 
@@ -70,36 +73,26 @@ ColMajorMatrix<in_type>::ColMajorMatrix(std::string inFilename)
     this->N = rows;
     this->vec.reserve(size);
     
-    in_type ignore;
-    in_type buff;
+    std::string in;
     for (int col=0; col<cols; ++col) {
         for (int row=0; row<rows; ++row) {
-            if (row >= col) {
-                inFile >> ignore;
-            } else {
-                inFile >> buff;
-                this->vec.push_back(buff);
+            inFile >> in;
+            if (row < col) {
+                this->vec.push_back( atof(in.c_str()) );
             }
         }
     }
 }
 
-template <typename in_type>
-void ColMajorMatrix<in_type>::print() {
-    std::cout.width(this->vec.size() * 2);
-    std::cout.fill('-');
-    std::cout << "" << std::endl;
-    // print indices
-    for(int i=0; i<this->vec.size(); ++i){
-        std::cout << i << " ";
+void ColMajorMatrix::print() {
+//   printVector(this->vec);
+
+    for (int col=0; col<this->N; ++col) {
+        for (int row=0; row<this->N; ++row) {
+            
+            std::cout << "[" << row << "," << col << "]:" << this->valueAt(row, col) << " ";
+        }
+        std::cout<<std::endl;
     }
-    std::cout << std::endl;
-    // print values
-    for(int i=0; i<this->vec.size(); ++i){
-        std::cout << this->vec.at(i) << " ";
-    }
-    std::cout << std::endl;
-    std::cout.width(this->vec.size() * 2);
-    std::cout.fill('-');
     std::cout << "" << std::endl;
 }
