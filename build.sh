@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 
-g++ src/main.cpp -o cluster
+CMD='g++ src/main.cpp -o cluster'
+
+echo  $CMD
+$CMD
