@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <numeric>
 #include <cmath>
 
 #include "matrix.h"
@@ -9,10 +10,25 @@
 
 class Slink {
 public:
-    static Slink execute(Matrix *matrix);
+    static Slink execute(Matrix *matrix, int num_threads);
 
     std::vector<double> getPi() { return pi; }
     std::vector<double> getLambda() { return lambda; }
+
+    double checkValue() 
+    {
+        auto remove_inf = [](double a, double b) {
+            if (a != INF && b != INF) return a+b;
+            if (a == INF) return b;
+            if (b == INF) return a;
+            return 0.;    
+        };
+
+        double piSum = std::accumulate(pi.begin(), pi.end(), 0., remove_inf);
+        double lambdaSum = std::accumulate(lambda.begin(), lambda.end(), 0., remove_inf);
+
+        return piSum + lambdaSum;
+    }
 
 private:
     std::vector<double> pi;
@@ -20,7 +36,7 @@ private:
 
 };
 
-Slink Slink::execute(Matrix *matrix)
+Slink Slink::execute(Matrix *matrix, int num_threads)
 {    
     Slink slink;
     std::vector<double> M;
