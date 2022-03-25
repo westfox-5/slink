@@ -18,8 +18,7 @@ int main(int argc, char* const argv[]) {
 
     auto begin = std::chrono::high_resolution_clock::now();
     
-    Matrix *matrix = new ColMajorMatrix(argv[1]);
-    //Matrix *matrix = new SimpleMatrix(argv[1]);
+    Matrix *matrix = Matrix::create(Matrix::Type::simple, argv[1]);
 
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed = 
@@ -36,7 +35,7 @@ int main(int argc, char* const argv[]) {
 
     begin = std::chrono::high_resolution_clock::now();
     
-    Slink slink = Slink::execute(matrix, num_threads);
+    Slink slink = Slink::execute(matrix);
 
     end = std::chrono::high_resolution_clock::now();
     elapsed = 
@@ -45,7 +44,7 @@ int main(int argc, char* const argv[]) {
     std::cout << "-------------------------------" << std::endl;
     std::cout << "Slink execution" << std::endl;
     std::cout << "Time: " << elapsed.count() << " ms." << std::endl;
-    std::cout << "Check value: " << slink.checkValue() << " ms." << std::endl;
+    std::cout << std::fixed << "Check value: " << slink.checkValue() << std::endl;
     std::cout << std::endl;
 
     // std::cout << "PI:" << std::endl;

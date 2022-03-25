@@ -10,10 +10,10 @@
 
 class Slink {
 public:
-    static Slink execute(Matrix *matrix, int num_threads);
+    static Slink execute(Matrix *matrix);
 
-    std::vector<double> getPi() { return pi; }
-    std::vector<double> getLambda() { return lambda; }
+    std::vector<double> getPi() { return _pi; }
+    std::vector<double> getLambda() { return _lambda; }
 
     double checkValue() 
     {
@@ -24,19 +24,19 @@ public:
             return 0.;    
         };
 
-        double piSum = std::accumulate(pi.begin(), pi.end(), 0., remove_inf);
-        double lambdaSum = std::accumulate(lambda.begin(), lambda.end(), 0., remove_inf);
+        double piSum = std::accumulate(_pi.begin(), _pi.end(), 0., remove_inf);
+        double lambdaSum = std::accumulate(_lambda.begin(), _lambda.end(), 0., remove_inf);
 
         return piSum + lambdaSum;
     }
 
 private:
-    std::vector<double> pi;
-    std::vector<double> lambda;
+    std::vector<double> _pi;
+    std::vector<double> _lambda;
 
 };
 
-Slink Slink::execute(Matrix *matrix, int num_threads)
+Slink Slink::execute(Matrix *matrix)
 {    
     Slink slink;
     std::vector<double> M;
@@ -44,8 +44,8 @@ Slink Slink::execute(Matrix *matrix, int num_threads)
     for (int n=0; n < matrix->getDimension(); ++n) {
         
         // INIT
-        slink.pi.push_back(n);
-        slink.lambda.push_back(INF);
+        slink._pi.push_back(n);
+        slink._lambda.push_back(INF);
         M.clear();
         M.reserve(n);
         for (int i=0; i<n; ++i) {
@@ -54,21 +54,21 @@ Slink Slink::execute(Matrix *matrix, int num_threads)
         
         // UPDATE
         for (int i=0; i<n; ++i) {
-            if (slink.lambda[i] >= M[i]) {
-                M[slink.pi[i]] = std::min(M[slink.pi[i]], slink.lambda[i]); 
-                slink.lambda[i] = M[i];
-                slink.pi[i] = n;
+            if (slink._lambda[i] >= M[i]) {
+                M[slink._pi[i]] = std::min(M[slink._pi[i]], slink._lambda[i]); 
+                slink._lambda[i] = M[i];
+                slink._pi[i] = n;
             }
             
-            if (slink.lambda[i] < M[i]) {
-                M[slink.pi[i]] = std::min(M[slink.pi[i]], M[i]);
+            if (slink._lambda[i] < M[i]) {
+                M[slink._pi[i]] = std::min(M[slink._pi[i]], M[i]);
             }
         }
 
         // FINALIZE
         for (int i=0; i<n; ++i) {
-            if (slink.lambda[i] >= slink.lambda[slink.pi[i]]) {
-                slink.pi[i] = n;
+            if (slink._lambda[i] >= slink._lambda[slink._pi[i]]) {
+                slink._pi[i] = n;
             }
         }
     }
