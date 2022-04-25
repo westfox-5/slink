@@ -15,10 +15,10 @@ int main(int argc, char* const argv[]) {
        std::cerr << "ERROR: no input file provided" << std::endl;
        exit(1);
     }
+    auto input_file = argv[1];
 
     auto begin = std::chrono::high_resolution_clock::now();
-    
-    Matrix *matrix = Matrix::create(Matrix::Type::simple, argv[1]);
+    Matrix *matrix = Matrix::create(Matrix::Type::simple, input_file);
 
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed = 
@@ -26,9 +26,8 @@ int main(int argc, char* const argv[]) {
       (end - begin);
 
 	  std::cout << "-------------------------------" << std::endl;
-    std::cout << "Reading file" << std::endl;
+    std::cout << "Reading file: " << input_file << std::endl;
     std::cout << "Time: " << elapsed.count() << " ms." << std::endl;
-    std::cout << std::endl;
     
     // matrix->print();
     //std::cout << "------------" << std::endl;
@@ -45,7 +44,6 @@ int main(int argc, char* const argv[]) {
     std::cout << "Slink execution" << std::endl;
     std::cout << "Time: " << elapsed.count() << " ms." << std::endl;
     std::cout << std::fixed << "Check value: " << slink.checkValue() << std::endl;
-    std::cout << std::endl;
 
     // std::cout << "PI:" << std::endl;
     // printVector(slink.getPi());
