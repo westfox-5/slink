@@ -25,12 +25,10 @@ int main(int argc, char* const argv[]) {
       std::chrono::duration_cast<std::chrono::milliseconds>
       (end - begin);
 
-	  std::cout << "-------------------------------" << std::endl;
     std::cout << "Reading file: " << input_file << std::endl;
     std::cout << "Time: " << elapsed.count() << " ms." << std::endl;
     
     // matrix->print();
-    //std::cout << "------------" << std::endl;
 
     begin = std::chrono::high_resolution_clock::now();
     
