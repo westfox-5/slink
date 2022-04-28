@@ -16,9 +16,9 @@ Single Linkage Hierarchical Clustering algorithm
     conda activate slink
     ```
 
-3. Configure input, output, column parameters in the bootstrap script and run it
+3. run the bootstrap script
 
     ```shell
-    python bootstrap.py
+    python bootstrap.py --help
     ```
 
