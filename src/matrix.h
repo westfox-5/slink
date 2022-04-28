@@ -18,7 +18,7 @@ protected:
 
     Matrix(std::string filename) : _filename(filename) { };
     void init();
-
+    
     // for initialization; must be non-pure virtual functions!
     virtual long getSize(int N) = 0;
     virtual bool store(int row, int col, double value) = 0;
@@ -28,6 +28,11 @@ public:
     long getDimension() 
     { 
         return dimension; 
+    }
+    
+    long getSize()
+    {
+        return dimension*dimension;
     }
 
     double valueAt(int row, int col) 

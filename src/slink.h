@@ -10,7 +10,8 @@
 
 class Slink {
 public:
-    static Slink execute(Matrix *matrix);
+    static Slink execute_sequential(Matrix *matrix);
+    static Slink execute_parallel(Matrix *matrix, int num_threads);
 
     std::vector<double> getPi() { return _pi; }
     std::vector<double> getLambda() { return _lambda; }
@@ -36,7 +37,7 @@ private:
 
 };
 
-Slink Slink::execute(Matrix *matrix)
+Slink Slink::execute_sequential(Matrix *matrix)
 {    
     Slink slink;
     std::vector<double> M;
@@ -76,3 +77,46 @@ Slink Slink::execute(Matrix *matrix)
     return slink;
 }
 
+
+Slink Slink::execute_parallel(Matrix *matrix, int num_threads)
+{    
+    Slink slink;
+    std::vector<double> M;
+    int dim = matrix->getDimension();
+
+    //#pragma omp parallel for num_threads(num_threads) private(M)
+    for (int n=0; n < dim; ++n) {
+        
+        // INIT
+        slink._pi.push_back(n);
+        slink._lambda.push_back(INF);
+        M.clear();
+        M.reserve(n);
+
+        #pragma omp parallel for num_threads(num_threads)
+        for (int i=0; i<n; ++i) {
+            M[i] = matrix->valueAt(i, n);
+        }
+        
+        // UPDATE
+        for (int i=0; i<n; ++i) {
+            if (slink._lambda[i] >= M[i]) {
+                M[slink._pi[i]] = std::min(M[slink._pi[i]], slink._lambda[i]); 
+                slink._lambda[i] = M[i];
+                slink._pi[i] = n;
+            } else { // slink._lambda[i] < M[i]
+                M[slink._pi[i]] = std::min(M[slink._pi[i]], M[i]);
+            }
+        }
+
+        // FINALIZE
+        #pragma omp parallel for num_threads(num_threads)
+        for (int i=0; i<n; ++i) {
+            if (slink._lambda[i] >= slink._lambda[slink._pi[i]]) {
+                slink._pi[i] = n;
+            }
+        }
+    }
+
+    return slink;
+}
