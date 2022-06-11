@@ -73,7 +73,7 @@ def run_file(inFile):
     global NUM_THREADS
     global MATRIX_TYPE
 
-    #cmd = f"perf stat -d {EXE_NAME} {inFile} {num_thread}"
+    # cmd = f"perf stat -d {EXE_NAME} {inFile} {NUM_THREADS}"
     cmd = f"{EXE_NAME} {inFile} {MATRIX_TYPE} {NUM_THREADS}"
     log(f"{cmd}")
     process = subprocess.Popen(shlex.split(cmd))

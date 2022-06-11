@@ -73,8 +73,8 @@ class SimpleMatrix : public Matrix
 {
 public:
     SimpleMatrix(std::string filename) : Matrix(filename){};
-
-    int indexOf(int i, int j)
+    
+    int indexOf(int i, int j) override
     {
         return i * dimension + j;
     }
@@ -102,7 +102,7 @@ class ColMajorMatrix : public Matrix
 public:
     ColMajorMatrix(std::string filename) : Matrix(filename){};
 
-    int indexOf(int i, int j)
+    int indexOf(int i, int j) override
     {
         int max = i > j ? i : j;
         int min = i < j ? i : j;
