@@ -14,13 +14,13 @@ std::string putlocation(const std::string filename, int row, int col)
     return ss.str();
 }
 
-static std::string format(double num)
+static std::string format(double val)
 {
-    if (num == INF) return "INF";
+    if (val == INF) return "INF";
     
     std::ostringstream oss;
     oss << std::setprecision(3);
-    oss << num;
+    oss << val;
     return oss.str();
 }
 
@@ -29,5 +29,13 @@ void printVector(std::vector<double> vec)
     for (int i = 0; i < vec.size(); ++i)
     {
         std::cout << "[" << i << "]: " << format(vec.at(i)) << std::endl;
+    }
+}
+
+void printVector(std::vector<int> vec)
+{
+    for (int i = 0; i < vec.size(); ++i)
+    {
+        std::cout << "[" << i << "]: " << vec.at(i) << std::endl;
     }
 }

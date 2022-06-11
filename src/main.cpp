@@ -1,5 +1,7 @@
 #include <iostream>
 #include <chrono>
+#include <vector>
+#include <string>
 
 #include "matrix.h"
 #include "slink.h"
@@ -11,6 +13,10 @@ void usage(std::string name)
 
 int main(int argc, char *const argv[])
 {
+
+    Slink::execute_split(NULL, 1);
+    return 0;
+
     if (argc == 1)
     {
         usage(argv[0]);
