@@ -20,7 +20,6 @@ void execute(Matrix* matrix, int num_threads, Slink::ExecType executionType)
     auto end = std::chrono::high_resolution_clock::now();
 
     std::cout << std::endl << Slink::executionTypeToString(executionType) << std::endl;
-//    std::cout << Slink::executionTypeToString(executionType) << std::endl;
     std::cout << "Time: " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() << " μs." << std::endl;
     std::cout << std::fixed << "Check value: " << slink.checkValue() << std::endl;
 }
@@ -66,11 +65,11 @@ int main(int argc, char *const argv[])
         " took " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms." <<
         " Matrix size is " << matrix->getSize() * sizeof(double) / 1000.0 / 1000.0 << " MB." << std::endl;
 
-    execute(matrix, num_threads, Slink::ExecType::SEQUENTIAL);
-    
+    // execute(matrix, num_threads, Slink::ExecType::SEQUENTIAL);
+    // execute(matrix, num_threads, Slink::ExecType::PARALLEL_OMP);
+
     execute(matrix, num_threads, Slink::ExecType::SEQUENTIAL_SPLIT);
-    
-    execute(matrix, num_threads, Slink::ExecType::PARALLEL_OMP);
+    execute(matrix, num_threads, Slink::ExecType::PARALLEL_SPLIT);
 
     delete matrix;
 
