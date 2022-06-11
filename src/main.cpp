@@ -2,21 +2,31 @@
 #include <chrono>
 #include <vector>
 #include <string>
+#include <functional>
 
 #include "matrix.h"
 #include "slink.h"
 
-void usage(std::string name)
+inline void usage(std::string name)
 {
     std::cout << "Usage: " << name << " <input> [<matrix-type> <num-threads>]" << std::endl;
 }
 
+void execute(Matrix* matrix, int num_threads, Slink::ExecType executionType) 
+{
+    
+    auto begin = std::chrono::high_resolution_clock::now();
+    Slink slink = Slink::execute(matrix, num_threads, executionType);
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::cout << std::endl << Slink::executionTypeToString(executionType) << std::endl;
+//    std::cout << Slink::executionTypeToString(executionType) << std::endl;
+    std::cout << "Time: " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() << " μs." << std::endl;
+    std::cout << std::fixed << "Check value: " << slink.checkValue() << std::endl;
+}
+
 int main(int argc, char *const argv[])
 {
-
-    Slink::execute_split(NULL, 1);
-    return 0;
-
     if (argc == 1)
     {
         usage(argv[0]);
@@ -41,60 +51,26 @@ int main(int argc, char *const argv[])
         }
     }
 
+    int num_threads = 1;
+    if (argc > 3)
+    {
+        num_threads = atoi(argv[3]);
+    }
+
+
     auto begin = std::chrono::high_resolution_clock::now();
     Matrix *matrix = Matrix::create(matrix_type, input_file);
     auto end = std::chrono::high_resolution_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
 
-    std::cout << "Reading file: " << input_file << std::endl;
-    std::cout << "Time: " << elapsed.count() << " ms." << std::endl;
-    std::cout << "Matrix size (MB): " << matrix->getSize() * sizeof(double) / 1000.0 / 1000.0 << std::endl;
+    std::cout << "Reading file '" << input_file << "'"<<
+        " took " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms." <<
+        " Matrix size is " << matrix->getSize() * sizeof(double) / 1000.0 / 1000.0 << " MB." << std::endl;
 
-    begin = std::chrono::high_resolution_clock::now();
-    Slink slink_sequential = Slink::execute_sequential(matrix);
-    end = std::chrono::high_resolution_clock::now();
-    elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+    execute(matrix, num_threads, Slink::ExecType::SEQUENTIAL);
     
-    std::cout << "-------------------------------" << std::endl;
-    std::cout << "Slink Sequential execution" << std::endl;
-    std::cout << "Time: " << elapsed.count() << " ms." << std::endl;
-
-    auto check_sequential = slink_sequential.checkValue();
-
-    if (argc > 3)
-    {
-        auto num_threads = atoi(argv[3]);
-        if (num_threads > -1)
-        {
-            begin = std::chrono::high_resolution_clock::now();
-
-            Slink slink_parallel = Slink::execute_parallel(matrix, num_threads);
-
-            end = std::chrono::high_resolution_clock::now();
-            elapsed =
-                std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
-            std::cout << "-------------------------------" << std::endl;
-            std::cout << "Slink Parallel execution (" << num_threads << " threads)" << std::endl;
-            std::cout << "Time: " << elapsed.count() << " ms." << std::endl;
-
-            auto check_parallel = slink_parallel.checkValue();
-
-            std::cout << "-------------------------------" << std::endl;
-            if (check_sequential == check_parallel)
-            {
-                std::cout << std::fixed << "Check values are EQUAL (" << check_sequential << ")" << std::endl;
-            }
-            else
-            {
-                std::cout << std::fixed << "Check values are NOT EQUAL (s: " << check_sequential << ", p: " << check_parallel << ")" << std::endl;
-            }
-        }
-    }
-    else
-    {
-        std::cout << "-------------------------------" << std::endl;
-        std::cout << std::fixed << "Check value (s: " << check_sequential << ")" << std::endl;
-    }
+    execute(matrix, num_threads, Slink::ExecType::SEQUENTIAL_SPLIT);
+    
+    execute(matrix, num_threads, Slink::ExecType::PARALLEL_OMP);
 
     delete matrix;
 

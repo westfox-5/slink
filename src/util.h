@@ -39,3 +39,21 @@ void printVector(std::vector<int> vec)
         std::cout << "[" << i << "]: " << vec.at(i) << std::endl;
     }
 }
+
+void printVectorHoriz(std::vector<int> vec)
+{
+    for (int i = 0; i < vec.size(); ++i)
+    {
+        std::cout << vec.at(i) << " ";
+    }
+    std::cout << std::endl;
+}
+
+void printVectorHoriz(std::vector<double> vec)
+{
+    for (int i = 0; i < vec.size(); ++i)
+    {
+        std::cout << format(vec.at(i)) << " ";
+    }
+    std::cout << std::endl;
+}

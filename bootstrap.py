@@ -23,7 +23,8 @@ def print_help():
     print("Usage: bootstrap.py [MODE] [MODE ARGS] [OPTIONS] [ARGS]")
     print("  MODE:")
     print("   -r --random <matrix dimension>            generate a distance matrix with random numbers")
-    print("   -i --input <input file>                   compute the distance matrix for the specified csv file")
+    print("   -i --input <input file>                   compute the distance matrix for the specified file")
+    print("   --csv <input file>                        compute the distance matrix for the specified csv file")
     print("  OPTIONS:")
     print("   -h --help                                     print this helper")
     print("   -v --verbose                                  enable verbose mode")
@@ -134,7 +135,7 @@ def create_distance_matrix_from_csv(input, outFilePath = None, column=None, sep=
             f.write("\n")
             np.savetxt(outFilePath, df.values, fmt="%.2f")
 
-def run_from_file(inFilepath, outFilename, column, sep):
+def run_from_csv(inFilepath, outFilename, column, sep):
     global DATASET_DIR
     global OUT_DATASET_DIR
     #inFilepath = join(DATASET_DIR, inFilename) 
@@ -145,11 +146,7 @@ def run_from_file(inFilepath, outFilename, column, sep):
     print_sep(f"CREATE MATRIX {outFilepath}")
     create_distance_matrix_from_csv(inFilepath, outFilepath, column, sep)
 
-    print_sep("COMPILE")
-    compile()
-    
-    print_sep("EXECUTE")
-    run_file(outFilepath)
+    compile_and_run_file(outFilepath)
 
 def run_from_random(N):
     global OUT_DATASET_DIR
@@ -157,6 +154,12 @@ def run_from_random(N):
     print_sep(f"CREATE MATRIX {outFilepath}")
     create_distance_matrix(outFilepath, N)
 
+    compile_and_run_file(outFilepath)
+
+def run_from_file(inFilepath):
+    compile_and_run_file(inFilepath)
+
+def compile_and_run_file(outFilepath):
     print_sep("COMPILE")
     compile()
     
@@ -175,7 +178,7 @@ if __name__ == "__main__":
 
     options, remainder = None, None
     try:
-        options, remainder = getopt.getopt(sys.argv[1:], 'r:i:m:n:c:s:vfh',["random=","input=","matrix-type=","num-threads=","column=","separator=","verbose","force","help"])
+        options, remainder = getopt.getopt(sys.argv[1:], 'r:i:m:n:c:s:vfh',["random=","input=","matrix-type=","num-threads=","column=","separator=","csv=","verbose","force","help"])
     except Exception:
         print_help()
         print_sep(f"ERROR: Invalid argument")
@@ -185,8 +188,11 @@ if __name__ == "__main__":
         if opt in ('-r', '--random'):
             input_type = "random"
             matrix_dim = arg
-        elif opt in ('-i', '--i nput'):
+        elif opt in ('-i', '--input'):
             input_type = "file"
+            input_file = arg
+        elif opt in ('--csv'):
+            input_type = "csv"
             input_file = arg
         elif opt in ('-m', '--matrix-type'):
             MATRIX_TYPE = arg
@@ -215,7 +221,9 @@ if __name__ == "__main__":
     if input_type == "random":
         run_from_random(int(matrix_dim))
     elif input_type == "file":
-        run_from_file(input_file, "matrix.dist", column_identifier, sep)
+        run_from_file(input_file)
+    elif input_type == "csv":
+        run_from_csv(input_file, "matrix.dist", column_identifier, sep)
     else:
         print_help()
         print_sep(f"ERROR: Invalid input type {input_type}" if input_type != None else "Input type not provided.")

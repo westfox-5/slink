@@ -14,6 +14,28 @@
 class Slink
 {
 public:
+    enum ExecType {SEQUENTIAL, PARALLEL_OMP, SEQUENTIAL_SPLIT };
+    static inline const Slink execute(Matrix *matrix, int num_threads, ExecType et) {
+        switch (et)
+        {
+            case SEQUENTIAL:  return Slink::execute_sequential(matrix);
+            case PARALLEL_OMP:  return Slink::execute_parallel(matrix, num_threads);
+            case SEQUENTIAL_SPLIT: return Slink::execute_split(matrix, num_threads);
+            default:        
+                std::throw_with_nested( std::invalid_argument("Execution Type not managed.") );
+        }
+
+    }
+    static inline const std::string executionTypeToString(ExecType et) {
+    switch (et)
+        {
+            case SEQUENTIAL:   return "Sequential";
+            case PARALLEL_OMP:   return "Parallel (OMP)";
+            case SEQUENTIAL_SPLIT: return "Sequential (SPLIT)";
+            default:      return "[Unknown ExecType]";
+        }
+    }
+private:
     static Slink execute_sequential(Matrix *matrix);
     static Slink execute_parallel(Matrix *matrix, int num_threads);
     
@@ -28,6 +50,10 @@ public:
     static void aux_update(std::vector<double> *M, Slink *slink, int n, int i);
     static void aux_finalize(Slink *slink, int n, int i);
 
+    Slink(): Slink({}, {}) {};
+    Slink(std::vector<int> pi, std::vector<double> lambda): _pi(pi), _lambda(lambda) {}
+
+public:
     std::vector<int> getPi() { return _pi; }
     std::vector<double> getLambda() { return _lambda; }
 
@@ -198,7 +224,7 @@ Slink Slink::execute_parallel(Matrix *matrix, int num_threads)
         M.reserve(n);
 
         
-        // #pragma omp parallel for num_threads(num_threads)
+        #pragma omp parallel for num_threads(num_threads)
         for (int i = 0; i < n; ++i)
         {
             M[i] = matrix->valueAt(i, n);
@@ -226,6 +252,7 @@ Slink Slink::execute_parallel(Matrix *matrix, int num_threads)
     
 
         // FINALIZE
+        #pragma omp parallel for num_threads(num_threads)
         for (int i = 0; i < n; ++i)
         {
             if (slink._lambda[i] >= slink._lambda[slink._pi[i]])
@@ -292,69 +319,54 @@ Slink Slink::execute_split_aux(Matrix *matrix, int start, int end) {
 }
 
 Slink Slink::execute_split_merge(Matrix *matrix, Slink *slink1, Slink *slink2, int mid_point) {
-    Slink result;
     std::vector<int> pi(matrix->getDimension());
     std::vector<double> lambda(matrix->getDimension());
     
-    int lenPI1 = slink1->_pi.size();
-    int lenPI2 = slink2->_pi.size();
-    
-    for (int i = 0; i < lenPI1; ++i) {
-        int pi1 = slink1->_pi.at(i);
-        double lambda1 = slink1->_lambda.at(i);
+    int len1 = slink1->_pi.size();
+    int len2 = slink2->_pi.size();
 
-        for (int j=0; j < lenPI2; ++j) {
-            //int pi2 = slink2->_pi.at(j);
+    // ciclo i nodi della prima meta'
+    for (int i = 0; i < len1; ++i) {
+        
+        // assumo che i valori attuali siano ottimali
+        pi.at(i) = slink1->_pi.at(i);
+        lambda.at(i) = slink1->_lambda.at(i);
 
+        // calcolo la distanza con ciascun nodo della seconda meta'
+        // ovvero merge!
+        for (int j=0; j < len2; ++j) {
             double dist = matrix->valueAt(i,j+mid_point);
-            std::cout << "["<<i<<","<<j+mid_point<<"] -> " << dist<< std::endl;
 
-            if (dist < lambda1) {
-                pi.at(i) = j+mid_point;
-                lambda.at(i) = dist;
-            } else {
-                pi.at(i) = pi1;
-                lambda.at(i) = lambda1;
+            // se ho trovato una distanza minore
+            // aggiorno i valori di pi e lambda 
+            if (lambda.at(i) > dist) {
+                pi.at(i) = slink2->_pi.at(j); // il nuovo nodo finale del cluster
+                lambda.at(i) = dist;    // la nuova distanza
             }
         }
     }
 
-    result._pi = pi;
-    result._lambda = lambda;
+    // i nodi nella seconda meta' sono gia' sistemati
+    // li unisco al cluser risultante
+    for (int j = 0; j < len2; ++j) {
+        pi.at(j + mid_point) = slink2->_pi.at(j);
+        lambda.at(j + mid_point) = slink2->_lambda.at(j);
+    }
 
+    Slink result(pi, lambda);
     return result;
 }
 
 
 Slink Slink::execute_split(Matrix *matrix, int num_threads)
 {
-    matrix = Matrix::create(Matrix::Type::simple, "./out-datasets/prof.in");
     int dim = matrix->getDimension();
 
-    Slink slink1 = execute_split_aux(matrix, 0, dim/2);
-    Slink slink2 = execute_split_aux(matrix, dim/2, dim);
+    int mid_point = dim;
 
-    std::cout << "SLINK 1 ["<<0<<":"<<dim/2-1<<"]" << std::endl;
-    std::cout << " PI: " << std::endl; 
-    printVector(slink1._pi);
-    std::cout << " LAMBDA: "<< std::endl;
-    printVector(slink1._lambda);
+    Slink slink1 = execute_split_aux(matrix, 0, mid_point);
+    Slink slink2 = execute_split_aux(matrix, mid_point, dim);
+    Slink result = execute_split_merge(matrix, &slink1, &slink2, mid_point);
 
-    std::cout << "--------------------------------" << std::endl;
-
-    std::cout << "SLINK 2 ["<<dim/2<<":"<<dim-1<<"]" << std::endl;
-    std::cout << " PI: " << std::endl; 
-    printVector(slink2._pi);
-    std::cout << " LAMBDA: "<< std::endl;
-    printVector(slink2._lambda);
-
-    std::cout << "--------------------------------" << std::endl;
-
-    Slink result = execute_split_merge(matrix, &slink1, &slink2, 2);
-    std::cout << "RESULT ["<<0<<":"<<matrix->getDimension()<<"]" << std::endl;
-    std::cout << " PI: " << std::endl; 
-    printVector(result._pi);
-    std::cout << " LAMBDA: "<< std::endl;
-    printVector(result._lambda);
     return result;
 }
