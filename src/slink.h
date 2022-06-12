@@ -4,6 +4,7 @@
 #include <vector>
 #include <numeric>
 #include <cmath>
+#include <iterator>
 #include <thread>
 
 #include <condition_variable>
@@ -185,114 +186,7 @@ Slink Slink::__parallel__omp(Matrix *matrix, int num_threads)
     return Slink(pi, lambda);
 }
 
-
-Slink __sequential__split_aux(Matrix *matrix, int start, int end) {
-    std::vector<int> pi;
-    std::vector<double> lambda;
-    std::vector<double> M;
-
-    for (int n = start; n < end; ++n)
-    {
-        // INIT
-        pi.push_back(n);
-        lambda.push_back(INF);
-        M.clear();
-        M.reserve(n - start);
-
-        for (int i = start; i < n; ++i)
-        {
-            M[i - start] = matrix->valueAt(i, n);
-        }
-
-
-        
-        // UPDATE        
-        for (int i = start; i < n; ++i)
-        {
-            int _pi_value = pi[i - start];
-            double min_1 = std::min(M[_pi_value - start], lambda[i - start]);
-            double min_2 = std::min(M[_pi_value - start], M[i - start]);
-
-            if (lambda[i - start] >= M[i - start])
-            {
-                M[_pi_value - start] = min_1;
-                lambda[i - start] = M[i - start];
-                pi[i - start] = n;
-            }
-            else
-            {
-                M[_pi_value - start] = min_2;
-            }
-        }
-
-        // FINALIZE
-        for (int i = start; i < n; ++i)
-        {
-            if (lambda[i - start] >= lambda[pi[i - start] - start])
-            {
-                pi[i - start] = n;
-            }
-        }
- 
-    }
-
-    return Slink(pi, lambda);
-}
-
-Slink* __sequential__split_merge(Matrix *matrix, Slink *slink1, Slink *slink2) {
-    std::vector<int> pi(matrix->getDimension());
-    std::vector<double> lambda(matrix->getDimension());
-    
-    int len1 = slink1->getPi().size();
-    int len2 = slink2->getPi().size();
-
-    // ciclo i nodi della prima meta'
-    for (int i = 0; i < len1; ++i) {
-        
-        // assumo che i valori attuali siano ottimali
-        pi.at(i) = slink1->getPi().at(i);
-        lambda.at(i) = slink1->getLambda().at(i);
-
-        // calcolo la distanza con ciascun nodo della seconda meta'
-        // ovvero merge!
-        for (int j=0; j < len2; ++j) {
-            double dist = matrix->valueAt(i,j+len1);
-
-            // se ho trovato una distanza minore
-            // aggiorno i valori di pi e lambda 
-            if (lambda.at(i) > dist) {
-                pi.at(i) = slink2->getPi().at(j); // il nuovo nodo finale del cluster
-                lambda.at(i) = dist;    // la nuova distanza
-            }
-        }
-    }
-
-    // i nodi nella seconda meta' sono gia' sistemati
-    // li unisco al cluster risultante
-    for (int j = 0; j < len2; ++j) {
-        pi.at(j+len1) = slink2->getPi().at(j);
-        lambda.at(j+len1) = slink2->getLambda().at(j);
-    }
-
-    return new Slink(pi, lambda);
-}
-
-
-Slink Slink::__sequential__split(Matrix *matrix, int num_threads)
-{
-    int dim = matrix->getDimension();
-
-    int mid_point = dim / 2;
-
-    Slink slink1 = __sequential__split_aux(matrix, 0, mid_point);
-    Slink slink2 = __sequential__split_aux(matrix, mid_point, dim);
-    Slink *result = __sequential__split_merge(matrix, &slink1, &slink2);
-
-    return *result;
-}
-
-
-void __parallel__split_aux(Matrix *matrix, int start, int end, Slink *out_slink) {
+void __split_aux(Matrix *matrix, int start, int end, Slink *out_slink) {
     std::vector<int> pi;
     std::vector<double> lambda;
     std::vector<double> M;
@@ -343,6 +237,72 @@ void __parallel__split_aux(Matrix *matrix, int start, int end, Slink *out_slink)
     out_slink->setLambda(lambda);
 }
 
+Slink* __split_merge(Matrix *matrix, Slink *slink1, Slink *slink2) {
+    std::vector<int> pi(slink1->getPi().size() + slink2->getPi().size());
+    std::vector<double> lambda(slink1->getLambda().size() + slink2->getLambda().size());
+    
+    int len1 = slink1->getPi().size();
+    int len2 = slink2->getPi().size();
+
+    // std::cout << "=======================" << std::endl;
+    // std::cout << "Pi 1:" << std::endl;
+    // printVectorHoriz(slink1->getPi());
+    // std::cout << "Pi 2:" << std::endl;
+    // printVectorHoriz(slink2->getPi());
+    // std::cout << "Lambda 1:" << std::endl;
+    // printVectorHoriz(slink1->getLambda());
+    // std::cout << "Lambda 2:" << std::endl;
+    // printVectorHoriz(slink2->getLambda());
+
+    // ciclo i nodi della prima meta'
+    for (int i = 0; i < len1; ++i) {
+        
+        // assumo che i valori attuali siano ottimali
+        pi.at(i) = slink1->getPi().at(i);
+        lambda.at(i) = slink1->getLambda().at(i);
+
+        // calcolo la distanza con ciascun nodo della seconda meta'
+        // ovvero merge!
+        for (int j=0; j < len2; ++j) {
+            double dist = matrix->valueAt(i,j+len1);
+
+            // se ho trovato una distanza minore
+            // aggiorno i valori di pi e lambda 
+            if (lambda.at(i) > dist) {
+                pi.at(i) = slink2->getPi().at(j); // il nuovo nodo finale del cluster
+                lambda.at(i) = dist;    // la nuova distanza
+            }
+        }
+    }
+
+    // i nodi nella seconda meta' sono gia' sistemati
+    // li unisco al cluster risultante
+    for (int j = 0; j < len2; ++j) {
+        pi.at(len1+j) = slink2->getPi().at(j);
+        lambda.at(len1+j) = slink2->getLambda().at(j);
+    }
+
+
+    return new Slink(pi, lambda);
+}
+
+Slink Slink::__sequential__split(Matrix *matrix, int num_threads)
+{
+    int dim = matrix->getDimension();
+
+    int mid_point = dim / 2;
+
+    Slink *slink1 = new Slink({},{});
+    __split_aux(matrix, 0, mid_point, slink1);
+    Slink *slink2 = new Slink({},{});;
+    __split_aux(matrix, mid_point, dim, slink2);
+    Slink *result = __split_merge(matrix, slink1, slink2);
+
+    printVector(result->getPi());
+    printVector(result->getLambda());
+
+    return *result;
+}
 
 Slink Slink::__parallel__split(Matrix *matrix, int num_threads)
 {
@@ -380,7 +340,7 @@ Slink Slink::__parallel__split(Matrix *matrix, int num_threads)
         // std::cout << "["<< tid <<"] -> ("<<start<<","<<end-1<<")"<<std::endl;
         Slink *slink = new Slink({},{});
         partial_results.push_back(slink);
-        workers.push_back( std::thread(__parallel__split_aux, matrix, start, end, slink) );
+        workers.push_back( std::thread(__split_aux, matrix, start, end, slink) );
     }
     
     for (std::thread &t: workers) { 
@@ -395,7 +355,10 @@ Slink Slink::__parallel__split(Matrix *matrix, int num_threads)
     if (partial_results.size() == 1)
         return *(partial_results.at(0));
     
-    auto accumulator = [&] (Slink *s1, Slink *s2){ return __sequential__split_merge(matrix, s1, s2); };
-    Slink *result = std::accumulate(partial_results.begin(), partial_results.end(), new Slink({},{}), accumulator);
+    Slink *result = __split_merge(matrix, partial_results.at(0), partial_results.at(1));
+    for (int i = 2; i < partial_results.size(); i++) {
+        result = __split_merge(matrix, result, partial_results.at(i));
+    }
+
     return *result;
 }
