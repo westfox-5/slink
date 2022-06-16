@@ -2,6 +2,7 @@
 
 #include <string>
 #include <sstream>
+#include <cmath>
 #include <limits>  // for INFINITY
 #include <iomanip> // for double-to-string conversion
 
@@ -14,21 +15,11 @@ std::string putlocation(const std::string filename, int row, int col)
     return ss.str();
 }
 
-static std::string format(double val)
-{
-    if (val == INF) return "INF";
-    
-    std::ostringstream oss;
-    oss << std::setprecision(3);
-    oss << val;
-    return oss.str();
-}
-
 void printVector(std::vector<double> vec)
 {
     for (int i = 0; i < vec.size(); ++i)
     {
-        std::cout << "[" << i << "]: " << format(vec.at(i)) << std::endl;
+        std::cout << "[" << i << "]: " << vec.at(i) << std::endl;
     }
 }
 
@@ -40,20 +31,38 @@ void printVector(std::vector<int> vec)
     }
 }
 
+void printVectorIndexHoriz(int size)
+{
+    for (int i = 0; i < size; ++i)
+    {
+        std::cout << std::setw(4) << i << " ";
+    }
+    std::cout << std::endl;
+}
+void printSep(int size) {
+    for (int i = 0; i < size; ++i)
+    {
+        std::cout << std::setw(4) << "-----";
+    }
+    std::cout << std::endl;
+}
+
 void printVectorHoriz(std::vector<int> vec)
 {
+    std::cout << std::setprecision(2);
     for (int i = 0; i < vec.size(); ++i)
     {
-        std::cout << vec.at(i) << " ";
+        std::cout << std::setw(4) << vec.at(i) << " ";
     }
     std::cout << std::endl;
 }
 
 void printVectorHoriz(std::vector<double> vec)
 {
+    std::cout << std::setprecision(2);
     for (int i = 0; i < vec.size(); ++i)
     {
-        std::cout << format(vec.at(i)) << " ";
+        std::cout << std::setw(4) << vec.at(i) << " ";
     }
     std::cout << std::endl;
 }

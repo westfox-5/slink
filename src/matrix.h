@@ -10,35 +10,36 @@
 class Matrix
 {
 public:
-    enum Type {simple, column_major};
-    static Matrix *create(Matrix::Type type, std::string filename);
+    enum Type
+    {
+        LINEAR,
+        COL_MAJOR
+    };
+    static const Matrix *create(Matrix::Type type, std::string filename);
 
-protected:
+public:
     long dimension;
     std::vector<double> vec;
     std::string _filename;
 
     Matrix(std::string filename) : _filename(filename){};
-    void init();
 
     // for initialization; must be non-pure virtual functions!
-    virtual long getSize(int N) = 0;
-    virtual bool store(int row, int col, double value) = 0;
+    virtual long getSize(int N) const = 0;
+    virtual bool store(int row, int col, double value) const = 0;
+    virtual int indexOf(int i, int j) const = 0;
 
-public:
-    virtual int indexOf(int i, int j) = 0;
-
-    long getDimension()
+    long getDimension() const
     {
         return dimension;
     }
 
-    long getSize()
+    long getSize() const
     {
         return dimension * dimension;
     }
 
-    double valueAt(int row, int col)
+    double valueAt(int row, int col) const
     {
         if (row == col)
             return 0;
@@ -49,7 +50,7 @@ public:
         return -1;
     }
 
-    void print()
+    void print() const
     {
         //   printVector(this->vec);
         std::cout << "Dimension: " << this->dimension << std::endl;
@@ -69,23 +70,23 @@ public:
 // Store the matrix in a linear vector.
 // Size: N*N
 // No optimizations are performed
-class SimpleMatrix : public Matrix
+class LinearMatrix : public Matrix
 {
 public:
-    SimpleMatrix(std::string filename) : Matrix(filename){};
-    
-    int indexOf(int i, int j) override
+    LinearMatrix(std::string filename) : Matrix(filename){};
+
+    int indexOf(int i, int j) const override
     {
         return i * dimension + j;
     }
 
-    long getSize(int N) override
+    long getSize(int N) const override
     {
         return N * N;
     }
 
     // store all the values of the matrix
-    bool store(int row, int col, double value) override
+    bool store(int row, int col, double value) const override
     {
         return true;
     }
@@ -102,61 +103,53 @@ class ColMajorMatrix : public Matrix
 public:
     ColMajorMatrix(std::string filename) : Matrix(filename){};
 
-    int indexOf(int i, int j) override
+    int indexOf(int i, int j) const override
     {
         int max = i > j ? i : j;
         int min = i < j ? i : j;
         return ((max * (max - 1)) / 2) + min;
     }
 
-    long getSize(int N) override
+    long getSize(int N) const override
     {
         return N * (N - 1) / 2;
     }
 
     // store only a triangle of the matrix
-    bool store(int row, int col, double value) override
+    bool store(int row, int col, double value) const override
     {
         return (row < col);
     }
 };
 
-Matrix *Matrix::create(Matrix::Type type, std::string filename)
+const Matrix *Matrix::create(Matrix::Type type, std::string filename)
 {
-    Matrix *m = nullptr;
-    if (type == Matrix::Type::simple)
+    Matrix *matrix = nullptr;
+    if (type == Matrix::Type::LINEAR)
     {
-        m = new SimpleMatrix(filename);
+        matrix = new LinearMatrix(filename);
     }
-    else if (type == Matrix::Type::column_major)
+    else if (type == Matrix::Type::COL_MAJOR)
     {
-        m = new ColMajorMatrix(filename);
+        matrix = new ColMajorMatrix(filename);
     }
     else
     {
-        std::cerr << "ERROR: Unknow matrix type " << type << std::endl;
-        return nullptr;
+        std::throw_with_nested(std::invalid_argument("MAtrix Type not managed."));
     }
 
-    m->init();
-
-    return m;
-}
-
-void Matrix::init()
-{
-    std::ifstream inFile(_filename);
+    std::ifstream inFile(filename);
     std::string line;
 
     if (!inFile.is_open())
     {
-        std::cerr << putlocation(_filename, 0, 0) << ": ERROR: could not open file." << std::endl;
+        std::cerr << putlocation(filename, 0, 0) << ": ERROR: could not open file." << std::endl;
         exit(1);
     }
 
     if (inFile.eof())
     {
-        std::cerr << putlocation(_filename, 0, 0) << ": ERROR: expecting first line to contain dimension of the matrix." << std::endl;
+        std::cerr << putlocation(filename, 0, 0) << ": ERROR: expecting first line to contain dimension of the matrix." << std::endl;
         exit(1);
     }
 
@@ -165,24 +158,23 @@ void Matrix::init()
 
     if (N < 0)
     {
-        std::cerr << putlocation(_filename, 0, 0) << ": ERROR: expecting a square matrix." << std::endl;
+        std::cerr << putlocation(filename, 0, 0) << ": ERROR: expecting a square matrix." << std::endl;
         exit(1);
     }
 
-    this->dimension = N;
-    long size = this->getSize(N);
-    this->vec.reserve(size);
+    matrix->dimension = N;
+    long size = matrix->getSize(N);
+    matrix->vec.reserve(size);
 
     std::string in;
     for (int col = 0; col < N; ++col)
     {
         for (int row = 0; row < N; ++row)
         {
-
             // check unexpected EOF
             if (inFile.eof())
             {
-                std::cerr << putlocation(_filename, row, col) << ": ERROR: unexpected EOF." << std::endl;
+                std::cerr << putlocation(filename, row, col) << ": ERROR: unexpected EOF." << std::endl;
                 exit(1);
             }
 
@@ -190,10 +182,12 @@ void Matrix::init()
             inFile >> in;
             double value = atof(in.c_str());
 
-            if (this->store(row, col, value))
+            if (matrix->store(row, col, value))
             {
-                this->vec.push_back(value);
+                matrix->vec.push_back(value);
             }
         }
     }
+
+    return matrix;
 }
