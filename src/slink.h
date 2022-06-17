@@ -111,8 +111,6 @@ public:
         printVectorHoriz(getPi());
         std::cout << " λ[i] ";
         printVectorHoriz(getLambda());
-
-        std::cout << std::endl;
     }
 
 public:
@@ -245,16 +243,6 @@ void __split_aux(const Matrix *matrix, int start, int end, Slink *out_slink)
         pi[n - start] = n;
         lambda[n - start] = INF;
 
-        if (n - start == 0 && start != 0 && end != matrix->getDimension())
-        {
-            double min_dist = lambda[n - start]; // inf
-            for (int k = start + 1; k < end - start; ++k)
-            {
-                min_dist = std::min(min_dist, matrix->valueAt(start - 1, k));
-            }
-            lambda[n - start] = min_dist;
-        }
-
         M.clear();
         M.reserve(n - start);
 
@@ -296,7 +284,7 @@ void __split_aux(const Matrix *matrix, int start, int end, Slink *out_slink)
     out_slink->setLambda(lambda);
 }
 
-const Slink *__split_merge(const Matrix *matrix, const Slink *slink1, const Slink *slink2)
+Slink *__split_merge(const Matrix *matrix, const Slink *slink1, const Slink *slink2)
 {
     int len1 = slink1->getPi().size();
     int len2 = slink2->getPi().size();
@@ -304,6 +292,10 @@ const Slink *__split_merge(const Matrix *matrix, const Slink *slink1, const Slin
 
     std::vector<int> pi(size);
     std::vector<double> lambda(size);
+
+    // std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" <<std::endl;
+    // slink1->print();
+    // slink2->print();
 
     // pre-load values of two slinks in the output vectors
     for (int i = 0; i < len1; ++i)
@@ -322,26 +314,21 @@ const Slink *__split_merge(const Matrix *matrix, const Slink *slink1, const Slin
     //  replace the cluster of node i to the corresponding cluster in slink2 (slink2->lambda[j])
     for (int i = len1 - 1; i >= 0; --i)
     {
-
         for (int j = len2 - 1; j >= 0; --j)
         {
             double matrix_dist = matrix->valueAt(i, len1 + j);
 
             if (lambda[i] > matrix_dist)
             {
+                int new_pi = j == 0 ? len1 : slink2->_pi[j];
+                /*
+                std::cout << " Changing: lambda["<<i<<"]="<<lambda[i] << " with matrix_dist.at("<<i<<","<< len1 + j<<")="<< matrix_dist<<". new pi["<<i<<"]="<< new_pi <<std::endl
+                << "\tpi["<<i<<"]="<<pi[i]<< std::endl
+                << "\tlen1="<<len1<< std::endl
+                << "\tslink2->_pi["<<j<<"]="<<slink2->_pi[j]<< std::endl << std::endl;
+                */
                 lambda[i] = matrix_dist;
-                pi[i] = slink2->_pi[j]; // the cluster to which node i will join
-            }
-        }
-    }
-
-    for (int i = 0; i < size; ++i)
-    {
-        for (int j = 0; j < i; ++j)
-        {
-            if (lambda[j] >= lambda[pi[j]])
-            {
-                pi[j] = i;
+                pi[i] = new_pi; // the cluster to which node i will join
             }
         }
     }
@@ -351,61 +338,100 @@ const Slink *__split_merge(const Matrix *matrix, const Slink *slink1, const Slin
     result->end = std::max(slink1->end, slink2->end);
     result->block_id = std::min(slink1->block_id, slink2->block_id);
 
-    // slink1->print();
-    // slink2->print();
-
     return result;
 }
 
 const Slink *Slink::__sequential__split(const Matrix *matrix, int num_blocks)
 {
-    int size = matrix->getDimension();
+    int dimension = matrix->getDimension();
     std::vector<Slink *> partial_results(num_blocks);
     // Load Balancing
-    const int block_size = (int)(std::floor(size / num_blocks)) + 1;
+    const int block_size = (int)(std::floor(dimension / (num_blocks)));
+    int num_remaining_blocks = dimension % num_blocks;
+
+    std::cout << "Load balance:" << std::endl;
+    std::cout << "\tdimension:" << dimension << std::endl;
+    std::cout << "\tnum_blocks:" << num_blocks << std::endl;
+    std::cout << "\tblock_size:" << block_size << std::endl;
+    std::cout << "\tnum_remaining_blocks:" << num_remaining_blocks << std::endl;
+
+    int total_jobs_assigned = 0;
 
     for (int block_id = 0; block_id < num_blocks; ++block_id)
     {
-        int start = block_id * block_size;
-        int end = std::min(start + block_size, size);
+        int num_jobs_to_assign = block_size;
+        if (num_remaining_blocks > 0)
+        {
+            --num_remaining_blocks;
+            ++num_jobs_to_assign;
+        }
+
+        int start = total_jobs_assigned;
+        int end = std::min(start + num_jobs_to_assign, dimension);
+        total_jobs_assigned += num_jobs_to_assign;
+
+        //std::cout << "\t("<<start<<","<<end<<")"<<std::endl;
 
         Slink *slink = Slink::empty();
         slink->start = start;
         slink->end = end - 1;
         slink->block_id = block_id;
-        __split_aux(matrix, start, end, slink);
         partial_results[block_id] = slink;
+
+        __split_aux(matrix, start, end, slink);
     }
 
     if (num_blocks == 0)
         return Slink::empty();
 
-    const Slink *result = partial_results.at(0);
+    Slink *result = partial_results.at(0);
     for (int i = 1; i < num_blocks; ++i)
     {
         result = __split_merge(matrix, result, partial_results.at(i));
     }
+
     return result;
 }
 
 const Slink *Slink::__parallel__split(const Matrix *matrix, int num_threads)
 {
-    int size = matrix->getDimension();
+    int dimension = matrix->getDimension();
     std::vector<Slink *> partial_results(num_threads);
-    std::vector<std::thread> threads(num_threads);
     // Load Balancing
-    const int block_size = (int)(std::floor(size / num_threads)) + 1;
+    const int block_size = (int)(std::floor(dimension / (num_threads)));
+    int num_remaining_blocks = dimension % num_threads;
+
+    std::cout << "Load balance:" << std::endl;
+    std::cout << "\tdimension:" << dimension << std::endl;
+    std::cout << "\tnum_threads:" << num_threads << std::endl;
+    std::cout << "\tblock_size:" << block_size << std::endl;
+    std::cout << "\tnum_remaining_blocks:" << num_remaining_blocks << std::endl;
+
+    int total_jobs_assigned = 0;
+
+    std::vector<std::thread> threads(num_threads);
 
     for (int block_id = 0; block_id < num_threads; ++block_id)
     {
-        int start = block_id * block_size;
-        int end = std::min(start + block_size, size);
+        int num_jobs_to_assign = block_size;
+        if (num_remaining_blocks > 0)
+        {
+            --num_remaining_blocks;
+            ++num_jobs_to_assign;
+        }
+
+        int start = total_jobs_assigned;
+        int end = std::min(start + num_jobs_to_assign, dimension);
+        total_jobs_assigned += num_jobs_to_assign;
+
+        //std::cout << "\t("<<start<<","<<end<<")"<<std::endl;
 
         Slink *slink = Slink::empty();
         slink->start = start;
         slink->end = end - 1;
         slink->block_id = block_id;
         partial_results[block_id] = slink;
+
         threads[block_id] = std::thread(__split_aux, matrix, start, end, slink);
     }
 
@@ -417,10 +443,11 @@ const Slink *Slink::__parallel__split(const Matrix *matrix, int num_threads)
     if (num_threads == 0)
         return Slink::empty();
 
-    const Slink *result = partial_results.at(0);
+    Slink *result = partial_results.at(0);
     for (int i = 1; i < num_threads; ++i)
     {
         result = __split_merge(matrix, result, partial_results.at(i));
     }
+
     return result;
 }
