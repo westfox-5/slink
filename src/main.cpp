@@ -100,8 +100,9 @@ int main(int argc, char *const argv[])
     execute(matrix, num_threads, Slink::ExecType::SEQUENTIAL);
     //execute(matrix, num_threads, Slink::ExecType::PARALLEL_OMP);
 
-    execute(matrix, num_threads, Slink::ExecType::SEQUENTIAL_SPLIT);
-    execute(matrix, num_threads, Slink::ExecType::PARALLEL_SPLIT);
+    //execute(matrix, num_threads, Slink::ExecType::SEQUENTIAL_SPLIT);
+    //execute(matrix, num_threads, Slink::ExecType::PARALLEL_SPLIT);
+    execute(matrix, num_threads, Slink::ExecType::PARALLEL_SPLIT_OMP);
 
     delete matrix;
 
