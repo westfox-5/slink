@@ -25,7 +25,6 @@ void execute(const Matrix *matrix, int num_threads, Slink::ExecType executionTyp
     std::cout << "Time: " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() << " μs." << std::endl;
     std::cout << std::fixed << "Check value: " << std::setprecision(3) << slink->checkValue() << std::endl;
 
-
     delete (slink);
 }
 
