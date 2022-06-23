@@ -4,8 +4,10 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <functional>
 
 #include "util.h"
+#include "../lib/rapidcsv.h"
 
 class Matrix
 {
@@ -15,7 +17,28 @@ public:
         LINEAR,
         COL_MAJOR
     };
-    static const Matrix *create(Matrix::Type type, std::string filename);
+    enum InputType
+    {
+        DIST,
+        CSV
+    };
+
+    static inline const Matrix *create(Matrix::Type type, Matrix::InputType fileType, std::string filename, std::function<double(const rapidcsv::Document *, int r1, int r2)> dist_fn)
+    {
+        switch (fileType)
+        {
+        case DIST:
+            return createFromDist(type, filename);
+        case CSV:
+            return createFromCsv(type, filename, dist_fn);
+        default:
+            std::throw_with_nested(std::invalid_argument("Input Type not managed."));
+        }
+    };
+
+private:
+    static const Matrix *createFromDist(Matrix::Type type, std::string filename);
+    static const Matrix *createFromCsv(Matrix::Type type, std::string filename, std::function<double(const rapidcsv::Document *, int r1, int r2)> dist_fn);
 
 public:
     long dimension;
@@ -26,7 +49,7 @@ public:
 
     // for initialization; must be non-pure virtual functions!
     virtual long getSize(int N) const = 0;
-    virtual bool store(int row, int col, double value) const = 0;
+    virtual bool store(int row, int col) const = 0;
     virtual int indexOf(int i, int j) const = 0;
 
     long getDimension() const
@@ -86,7 +109,7 @@ public:
     }
 
     // store all the values of the matrix
-    bool store(int row, int col, double value) const override
+    bool store(int row, int col) const override
     {
         return true;
     }
@@ -116,13 +139,57 @@ public:
     }
 
     // store only a triangle of the matrix
-    bool store(int row, int col, double value) const override
+    bool store(int row, int col) const override
     {
         return (row < col);
     }
 };
 
-const Matrix *Matrix::create(Matrix::Type type, std::string filename)
+const Matrix *Matrix::createFromCsv(Matrix::Type type, std::string filename, std::function<double(const rapidcsv::Document *, int r1, int r2)> dist_fn)
+{
+    Matrix *matrix = nullptr;
+    if (type == Matrix::Type::LINEAR)
+    {
+        matrix = new LinearMatrix(filename);
+    }
+    else if (type == Matrix::Type::COL_MAJOR)
+    {
+        matrix = new ColMajorMatrix(filename);
+    }
+    else
+    {
+        std::throw_with_nested(std::invalid_argument("Matrix Type not managed."));
+    }
+
+    rapidcsv::Document doc(filename, rapidcsv::LabelParams(-1, -1));
+
+    long N = doc.GetRowCount();
+
+    matrix->dimension = N;
+    long size = matrix->getSize(N);
+    matrix->vec.reserve(size);
+
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
+
+            if (i != j)
+            {
+                double dist = dist_fn(&doc, i, j);
+
+                if (matrix->store(i, j))
+                {
+                    matrix->vec.push_back(dist);
+                }
+            }
+        }
+    }
+
+    return matrix;
+}
+
+const Matrix *Matrix::createFromDist(Matrix::Type type, std::string filename)
 {
     Matrix *matrix = nullptr;
     if (type == Matrix::Type::LINEAR)
@@ -182,7 +249,7 @@ const Matrix *Matrix::create(Matrix::Type type, std::string filename)
             inFile >> in;
             double value = atof(in.c_str());
 
-            if (matrix->store(row, col, value))
+            if (matrix->store(row, col))
             {
                 matrix->vec.push_back(value);
             }

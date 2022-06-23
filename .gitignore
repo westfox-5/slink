@@ -1,6 +1,5 @@
 .vscode
 slink
 
-datasets
-out-datasets
-!./out-datasets/prof.in
+*.in
+!prof10.in
