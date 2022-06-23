@@ -66,7 +66,7 @@ private:
     static const Slink *__parallel__split(const Matrix *matrix, int num_threads);
 
 public:
-    Slink(std::vector<int> t_pi, std::vector<double> t_lambda) : pi_(t_pi), lambda_(t_lambda) { }
+    Slink(std::vector<int> t_pi, std::vector<double> t_lambda) : pi_(t_pi), lambda_(t_lambda) {}
 
     double checkValue() const
     {
@@ -76,13 +76,14 @@ public:
         double lambdaSum = std::accumulate(lambda_.begin(), lambda_.end(),
                                            0.0, [](double a, double b)
                                            {
-                if (a != INF && b != INF)
-                    return a + b;
-                if (a == INF)
-                    return b;
-                if (b == INF)
-                    return a;
-                return 0.0; });
+                                               if (a != INF && b != INF)
+                                                   return a + b;
+                                               if (a == INF)
+                                                   return b;
+                                               if (b == INF)
+                                                   return a;
+                                               return 0.0;
+                                           });
 
         return piSum + lambdaSum;
     }
@@ -104,7 +105,7 @@ public:
         printVectorHoriz(lambda_);
     }
 
-    int size() const 
+    int size() const
     {
         return pi_.size();
     }
@@ -112,8 +113,8 @@ public:
 public:
     std::vector<int> pi_;
     std::vector<double> lambda_;
-    int id_ { -1 };
-    int start_ { -1 }, end_ { -1 };
+    int id_{-1};
+    int start_{-1}, end_{-1};
 };
 
 const Slink *Slink::__sequential(const Matrix *matrix)
@@ -184,7 +185,7 @@ const Slink *Slink::__parallel__omp(const Matrix *matrix, int num_threads)
         M.clear();
         M.reserve(n);
 
-        #pragma omp parallel for num_threads(num_threads)
+#pragma omp parallel for num_threads(num_threads)
         for (int i = 0; i < n; ++i)
         {
             M[i] = matrix->valueAt(i, n);
@@ -209,8 +210,8 @@ const Slink *Slink::__parallel__omp(const Matrix *matrix, int num_threads)
             }
         }
 
-        // FINALIZE
-        #pragma omp parallel for num_threads(num_threads)
+// FINALIZE
+#pragma omp parallel for num_threads(num_threads)
         for (int i = 0; i < n; ++i)
         {
             if (lambda[i] >= lambda[pi[i]])
@@ -231,7 +232,7 @@ void __split_aux(const Matrix *matrix, int start, int end, Slink *out_slink, std
 {
     std::vector<int> pi(end - start);
     std::vector<double> lambda(end - start);
-    std::vector<double>* M = new std::vector<double>();
+    std::vector<double> *M = new std::vector<double>();
 
     for (int n = start; n < end; ++n)
     {
@@ -245,7 +246,7 @@ void __split_aux(const Matrix *matrix, int start, int end, Slink *out_slink, std
         for (int i = start; i < n; ++i)
         {
             M->push_back(matrix->valueAt(i, n));
-        }        
+        }
 
         // UPDATE
         for (int i = start; i < n; ++i)
@@ -278,51 +279,65 @@ void __split_aux(const Matrix *matrix, int start, int end, Slink *out_slink, std
 
     out_slink->pi_.swap(pi);
     out_slink->lambda_.swap(lambda);
-    
+
     *out_m = M;
 }
 
+bool _is_in_cluster(std::vector<int> *pi, int cluster, int index) {
+    int c = index;
+    while (c < pi->size() && c < cluster)
+        c = pi->at(c);
+    return c == cluster;
+}
 
 Slink *__split_merge(const Matrix *matrix, const Slink *slink1, const Slink *slink2)
 {
     int len1 = slink1->size();
     int len2 = slink2->size();
     int size = len1 + len2;
-    
+
     std::vector<int> pi(slink1->pi_);
     std::vector<double> lambda(slink1->lambda_);
     pi.insert(pi.end(), slink2->pi_.begin(), slink2->pi_.end());
     lambda.insert(lambda.end(), slink2->lambda_.begin(), slink2->lambda_.end());
 
-    std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" <<std::endl;
-    slink1->print();
-    slink2->print();
-
-
-    for (int i=len1-1; i>=0; i--) {
-
-        pi[i] = slink1->pi_[i];
-        lambda[i] = slink1->lambda_[i];
-
+    for (int i = len1 - 1; i >= 0; i--)
+    {
         int cluster = slink1->pi_[i];
         double min_dist = slink1->lambda_[i];
 
-        for (int j=0; j<len2; j++) {
-            double d = matrix->valueAt(i, len1+j);
-            if (d < min_dist) {
+        for (int j = 0; j < len2; j++)
+        {
+            double d = matrix->valueAt(i, len1 + j);
+            if (d < min_dist)
+            {
                 min_dist = d;
                 cluster = len1 + j;
             }
         }
 
-        while (min_dist > lambda[cluster]) {
+        while (min_dist > lambda[cluster])
             cluster = pi[cluster];
-        }
 
-        if (cluster != pi[i]) {
-            pi[i] = cluster;
-            lambda[i] = min_dist;
-        }
+        pi[i] = cluster;
+        lambda[i] = min_dist;
+    }
+
+    for (int n=0; n<size; n++)
+    {
+        for (int i=0; i<n; ++i)
+        {
+            if (pi[i] == n)
+            {
+                for (int j=0; j<i; ++j)
+                {
+                    if (_is_in_cluster(&pi, pi[n], j) && !_is_in_cluster(&pi, n, j))
+                    {
+                        lambda[n] = std::min(lambda[n], matrix->valueAt(j, i));
+                    }
+                }
+            }  
+        } 
     }
 
     Slink *result = new Slink(pi, lambda);
@@ -342,10 +357,10 @@ Slink *__split_merge2(const Matrix *matrix, const Slink *slink1, const Slink *sl
     std::vector<int> pi(size);
     std::vector<double> lambda(size);
 
-    std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" <<std::endl;
+    std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
     slink1->print();
     slink2->print();
-    std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" <<std::endl;
+    std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
 
     // pre-load values of two slinks in the output vectors
     for (int i = 0; i < len1; ++i)
@@ -371,11 +386,13 @@ Slink *__split_merge2(const Matrix *matrix, const Slink *slink1, const Slink *sl
             if (lambda[i] > matrix_dist)
             {
                 int newpi_;
-                if (lambda[len1+j] < matrix_dist)
+                if (lambda[len1 + j] < matrix_dist)
                     newpi_ = len1 + j;
-                else {
+                else
+                {
                     int k = len1 + j;
-                    while (lambda[k] < matrix_dist) ;
+                    while (lambda[k] < matrix_dist)
+                        ;
                     newpi_ = pi[k];
                 }
                 /*
@@ -388,7 +405,7 @@ Slink *__split_merge2(const Matrix *matrix, const Slink *slink1, const Slink *sl
                 pi[i] = newpi_; // the cluster to which node i will join
             }
         }
-        
+
         // //for (int k = 0; k < i; ++k)
         // for (int k = 0; k < i; ++k)
         // {
@@ -397,7 +414,6 @@ Slink *__split_merge2(const Matrix *matrix, const Slink *slink1, const Slink *sl
         //         pi[k] = i;
         //     }
         // }
-
     }
 
     Slink *result = new Slink(pi, lambda);
@@ -446,11 +462,11 @@ const Slink *Slink::__sequential__split(const Matrix *matrix, int num_blocks)
         slink->end_ = end - 1;
         slink->id_ = block_id;
 
-        std::vector<double>* m = new std::vector<double>();
+        std::vector<double> *m = new std::vector<double>();
 
         __split_aux(matrix, start, end, slink, &m);
 
-        partial_results[block_id] =slink ;
+        partial_results[block_id] = slink;
         partial_ms[block_id] = m;
     }
 
@@ -458,7 +474,7 @@ const Slink *Slink::__sequential__split(const Matrix *matrix, int num_blocks)
         return Slink::empty();
 
     Slink *result = partial_results.at(0);
-    std::vector<double>* m = partial_ms.at(0);
+    std::vector<double> *m = partial_ms.at(0);
     for (int i = 1; i < num_blocks; ++i)
     {
         //result = __split_merge(matrix, result, partial_results.at(i), m, partial_ms.at(i));
