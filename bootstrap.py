@@ -60,7 +60,7 @@ def log(text):
 
 def compile() -> int:
     global EXE_NAME
-    cmd = f"g++ -fopenmp --std=c++17 -O3 src/main.cpp -o {EXE_NAME}"
+    cmd = f"make"
     log(f"{LOG_PREFIX}{cmd}")
     process = subprocess.Popen(shlex.split(cmd))
     process.wait()
@@ -144,8 +144,7 @@ if __name__ == "__main__":
 
     options, remainder = None, None
     try:
-        options, remainder = getopt.getopt(sys.argv[1:], 'r:i:m:n:vfh',
-                                           ["random=", "input=", "matrix-type=", "num-threads=", "verbose", "force", "help"])
+        options, remainder = getopt.getopt(sys.argv[1:], 'r:i:m:n:vfh', ["random=", "input=", "matrix-type=", "num-threads=", "verbose", "force", "help"])
     except Exception:
         print_help()
         print_sep(f"ERROR: Invalid argument")
