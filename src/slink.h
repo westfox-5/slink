@@ -20,6 +20,7 @@ private:
     static const Slink *__parallel__omp(const Matrix *matrix, int num_threads);
     static const Slink *__sequential__split(const Matrix *matrix, int num_threads);
     static const Slink *__parallel__split(const Matrix *matrix, int num_threads);
+    static const Slink *__parallel__split_omp(const Matrix *matrix, int num_threads);
 
 public:
     int id_{-1};
@@ -32,7 +33,8 @@ public:
         SEQUENTIAL,
         PARALLEL_OMP,
         SEQUENTIAL_SPLIT,
-        PARALLEL_SPLIT
+        PARALLEL_SPLIT,
+        PARALLEL_SPLIT_OMP
     };
 
     Slink(std::vector<int> t_pi, std::vector<double> t_lambda) : pi_(t_pi), lambda_(t_lambda) {}

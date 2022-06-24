@@ -20,6 +20,8 @@ const Slink *Slink::execute(const Matrix *matrix, int num_threads, Slink::ExecTy
         return Slink::__sequential__split(matrix, num_threads);
     case PARALLEL_SPLIT:
         return Slink::__parallel__split(matrix, num_threads);
+    case PARALLEL_SPLIT_OMP:
+            return Slink::__parallel__split_omp(matrix, num_threads);
     default:
         std::throw_with_nested(std::invalid_argument("Execution Type not managed."));
     }
@@ -37,6 +39,8 @@ const std::string Slink::executionTypeToString(Slink::ExecType et)
         return "Sequential (SPLIT)";
     case PARALLEL_SPLIT:
         return "Parallel (SPLIT)";
+    case PARALLEL_SPLIT_OMP:
+            return "Parallel (SPLIT-OMP)";
     default:
         std::throw_with_nested(std::invalid_argument("Execution Type not managed."));
     }
@@ -405,6 +409,43 @@ const Slink *Slink::__parallel__split(const Matrix *matrix, int num_threads)
     Slink *result = partial_results.at(0);
     for (int i = 1; i < num_threads; ++i)
     {
+        result = __split_merge(matrix, result, partial_results.at(i));
+    }
+
+    return result;
+}
+
+const Slink *Slink::__parallel__split_omp(const Matrix *matrix, int num_threads)
+{
+    int dimension = matrix->getDimension();
+    std::vector<Slink *> partial_results;
+
+    static const int blocks_per_thread = 10;
+
+    #pragma omp parallel for schedule(static, 1)
+    for (int i=0; i<dimension; i+=blocks_per_thread)
+    {
+        int start = i;
+        int end = std::min(i + blocks_per_thread, dimension);
+    
+        //std::cout <<"("<<start<<","<<end<<")" << std::endl;
+
+        Slink *slink = Slink::empty();
+        slink->start_ = i;
+        slink->end_ = end;
+        slink->id_ = i;
+        __split_aux(matrix, start, end, slink);
+
+        partial_results.push_back(slink);
+    }
+
+    if (partial_results.empty())
+        return Slink::empty();
+
+    Slink *result = partial_results.at(0);
+    for (int i=1; i<partial_results.size(); ++i)
+    {
+        std::cout <<result->size()<< std::endl;
         result = __split_merge(matrix, result, partial_results.at(i));
     }
 

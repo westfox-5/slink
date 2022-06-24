@@ -10,7 +10,7 @@ import numpy as np
 
 VERBOSE = False
 FORCE_RECREATE = False
-FILE_TYPE = ""
+FILE_TYPE = "dist"
 MATRIX_TYPE = "linear"
 NUM_THREADS = 1
 EXE_NAME = "./slink"
@@ -29,6 +29,7 @@ def print_help():
     print("   -f --force                                force recreation of the distance matrix")
     print("   -n --num-threads <N>                      specify number of threads for the parallel execution. If not provided, sequential execution is performed")
     print("   -m --matrix-type <linear, col_major>      specify type of matrix to store data")
+    print("   -t --file-type <dist, csv>                forces the execution with the specified file type")
 
 
 def print_header():
@@ -144,7 +145,8 @@ if __name__ == "__main__":
 
     options, remainder = None, None
     try:
-        options, remainder = getopt.getopt(sys.argv[1:], 'r:i:m:n:vfh', ["random=", "input=", "matrix-type=", "num-threads=", "verbose", "force", "help"])
+        options, remainder = getopt.getopt(sys.argv[1:], 'r:i:m:n:t:vfh',
+                                           ["random=", "input=", "file-type", "matrix-type=", "num-threads=", "verbose", "force", "help"])
     except Exception:
         print_help()
         print_sep(f"ERROR: Invalid argument")
@@ -167,6 +169,9 @@ if __name__ == "__main__":
             FORCE_RECREATE = True
         elif opt in ('-v', '--verbose'):
             VERBOSE = True
+        elif opt in ('-t', '--file-type'):
+            print(arg)
+            FILE_TYPE = arg
         elif opt in ('-h', '--help'):
             print_help()
             exit(0)
