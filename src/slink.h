@@ -38,9 +38,7 @@ public:
     };
 
     Slink(std::vector<int> t_pi, std::vector<double> t_lambda) : pi_(t_pi), lambda_(t_lambda) {}
-    static inline Slink *empty();
-    static const Slink *execute(const Matrix *matrix, int num_threads, Slink::ExecType et);
-    static const std::string executionTypeToString(Slink::ExecType et);
+    static Slink *empty();
     double checkValue() const;
     void print() const;
     int size() const;
