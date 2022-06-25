@@ -18,5 +18,6 @@ void printVectorIndexHoriz(int size);
 void printSep(int size);
 void printVectorHoriz(std::vector<int> vec);
 void printVectorHoriz(std::vector<double> vec);
+bool endsWith(std::string& str, std::string suffix);
 
 #endif

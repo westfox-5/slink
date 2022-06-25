@@ -1,13 +1,13 @@
 #include "matrix.h"
 
-const Matrix *Matrix::create(Matrix::Type type, Matrix::InputType fileType, std::string filename, std::function<double(const rapidcsv::Document *, int r1, int r2)> dist_fn)
+const Matrix *Matrix::create(Matrix::Type type, Matrix::InputType fileType, std::string filename)
 {
     switch (fileType)
     {
     case DIST:
         return createFromDist(type, filename);
     case CSV:
-        return createFromCsv(type, filename, dist_fn);
+        return createFromCsv(type, filename);
     default:
         std::throw_with_nested(std::invalid_argument("Input Type not managed."));
     }
@@ -79,7 +79,7 @@ void Matrix::print() const
     std::cout << "" << std::endl;
 }
 
-const Matrix *Matrix::createFromCsv(Matrix::Type type, std::string filename, std::function<double(const rapidcsv::Document *, int r1, int r2)> dist_fn)
+const Matrix *Matrix::createFromCsv(Matrix::Type type, std::string filename)
 {
     Matrix *matrix = nullptr;
 
@@ -94,6 +94,8 @@ const Matrix *Matrix::createFromCsv(Matrix::Type type, std::string filename, std
     default:
         std::throw_with_nested(std::invalid_argument("Matrix Type not managed."));
     }
+
+    auto dist_fn = DistanceFunctions::by_filename(filename);
 
     rapidcsv::Document doc(filename, rapidcsv::LabelParams(-1, -1));
     long N = doc.GetRowCount();

@@ -8,6 +8,7 @@
 #include <functional>
 
 #include "util.h"
+#include "dist_functions.h"
 #include "../lib/rapidcsv.h"
 
 class Matrix
@@ -34,8 +35,7 @@ public:
     static const Matrix *create(
         Matrix::Type type,
         Matrix::InputType fileType,
-        std::string filename,
-        std::function<double(const rapidcsv::Document *, int r1, int r2)> dist_fn
+        std::string filename
     );
 
     // for initialization; must be non-pure virtual functions!
@@ -50,7 +50,7 @@ public:
 
 private:
     static const Matrix *createFromDist(Matrix::Type type, std::string filename);
-    static const Matrix *createFromCsv(Matrix::Type type, std::string filename, std::function<double(const rapidcsv::Document *, int r1, int r2)> dist_fn);
+    static const Matrix *createFromCsv(Matrix::Type type, std::string filename);
 };
 
 // Store the matrix in a linear vector.
