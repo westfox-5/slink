@@ -9,6 +9,7 @@ namespace SlinkExecutors {
         SEQUENTIAL,
         PARALLEL_OMP,
         PARALLEL_SPLIT,
+        PARALLEL_INNER_SPLIT,
         PARALLEL_SPLIT_OMP
     };
 
@@ -27,6 +28,10 @@ namespace SlinkExecutors {
     }
 
     namespace ParallelSplit {
+        const Slink* execute(const Matrix *matrix, int num_threads);
+    }
+
+    namespace ParallelInnerSplit {
         const Slink* execute(const Matrix *matrix, int num_threads);
     }
 

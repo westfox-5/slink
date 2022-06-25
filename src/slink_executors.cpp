@@ -11,6 +11,8 @@ const Slink* SlinkExecutors::execute(const Matrix *matrix, int num_threads, Slin
         return SlinkExecutors::ParallelSplit::execute(matrix, num_threads);
     case PARALLEL_SPLIT_OMP:
         return SlinkExecutors::ParallelSplitOMP::execute(matrix, num_threads);
+    case PARALLEL_INNER_SPLIT:
+        return SlinkExecutors::ParallelInnerSplit::execute(matrix, num_threads);
     default:
         std::throw_with_nested(std::invalid_argument("Execution Type not managed."));
     }
@@ -27,7 +29,9 @@ std::string SlinkExecutors::execution_type_to_string(SlinkExecutors::type type)
     case PARALLEL_SPLIT:
         return "Parallel (SPLIT)";
     case PARALLEL_SPLIT_OMP:
-            return "Parallel (SPLIT-OMP)";
+        return "Parallel (SPLIT-OMP)";
+    case PARALLEL_INNER_SPLIT:
+        return "Parallel (INNER SPLIT)";
     default:
         std::throw_with_nested(std::invalid_argument("Execution Type not managed."));
     }
