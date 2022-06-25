@@ -1,8 +1,6 @@
 #ifndef SLINK_H
 #define SLINK_H
 
-#pragma once
-
 #include <iostream>
 #include <vector>
 #include <numeric>

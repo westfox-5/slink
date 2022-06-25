@@ -31,8 +31,8 @@ def print_help():
     print("   -n --num-threads <N>                      specify number of threads for the parallel execution. If not provided, sequential execution is performed")
     print("   -m --matrix-type <linear, col_major>      specify type of matrix to store data")
     print("   -t --file-type <dist, csv>                forces the execution with the specified file type")
-    print("   -e --execution-type <0..3>                executes a specific execution policy (sequential = 0..parallel split OMP = 3)")
-
+    print("   -e --execution-type <0..3>                executes a specific execution policy (0=sequential, 1=parallel OMP, 2=parallel split, 3=parallel split OMP)")
+  
 
 def print_header():
     print()
