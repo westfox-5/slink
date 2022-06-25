@@ -19,8 +19,7 @@ void execute_wrapper(const Matrix *matrix, int num_threads, SlinkExecutors::type
     const Slink *slink = SlinkExecutors::execute(matrix, num_threads, executionType);
     auto end = std::chrono::high_resolution_clock::now();
 
-    if (matrix->getDimension() < 20)
-        slink->print();
+    // slink->print();
 
     std::cout << "\tTime: " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() << " μs." << std::endl;
     std::cout << std::fixed << "\tCheck value: " << std::setprecision(3) << slink->checkValue() << std::endl;
