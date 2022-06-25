@@ -18,9 +18,31 @@ long Matrix::getDimension() const
     return dimension;
 }
 
+int LinearMatrix::indexOf(int i, int j) const
+{
+    return i * dimension + j;
+}
+
+int ColMajorMatrix::indexOf(int i, int j) const
+{
+    int max = i > j ? i : j;
+    int min = i < j ? i : j;
+    return ((max * (max - 1)) / 2) + min;
+}
+
 long Matrix::getSize() const
 {
     return dimension * dimension;
+}
+
+long LinearMatrix::getSize(int N) const
+{
+    return N * N;
+}
+
+long ColMajorMatrix::getSize(int N) const
+{
+    return N * (N - 1) / 2;
 }
 
 double Matrix::valueAt(int row, int col) const
@@ -31,6 +53,16 @@ double Matrix::valueAt(int row, int col) const
     if (indexOf > -1 && indexOf < this->vec.size())
         return this->vec.at(indexOf);
     return -1;
+}
+
+bool LinearMatrix::store(int row, int col) const
+{
+    return true;
+}
+
+bool ColMajorMatrix::store(int row, int col) const
+{
+    return (row < col);
 }
 
 void Matrix::print() const

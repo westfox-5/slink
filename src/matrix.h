@@ -60,22 +60,10 @@ class LinearMatrix : public Matrix
 {
 public:
     LinearMatrix(std::string filename) : Matrix(filename){};
-
-    int indexOf(int i, int j) const override
-    {
-        return i * dimension + j;
-    }
-
-    long getSize(int N) const override
-    {
-        return N * N;
-    }
-
+    int indexOf(int i, int j) const override;
+    long getSize(int N) const override;
     // store all the values of the matrix
-    bool store(int row, int col) const override
-    {
-        return true;
-    }
+    bool store(int row, int col) const override;
 };
 
 // Store the matrix in a linear vector.
@@ -88,24 +76,10 @@ class ColMajorMatrix : public Matrix
 {
 public:
     ColMajorMatrix(std::string filename) : Matrix(filename){};
-
-    int indexOf(int i, int j) const override
-    {
-        int max = i > j ? i : j;
-        int min = i < j ? i : j;
-        return ((max * (max - 1)) / 2) + min;
-    }
-
-    long getSize(int N) const override
-    {
-        return N * (N - 1) / 2;
-    }
-
+    int indexOf(int i, int j) const override;
+    long getSize(int N) const override;
     // store only a triangle of the matrix
-    bool store(int row, int col) const override
-    {
-        return (row < col);
-    }
+    bool store(int row, int col) const override;
 };
 
 #endif
