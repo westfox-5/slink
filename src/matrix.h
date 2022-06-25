@@ -20,22 +20,22 @@ public:
         COL_MAJOR
     };
 
-    enum InputType
+    enum FileType
     {
         DIST,
         CSV
     };
 
-    long dimension;
-    std::vector<double> vec;
-    std::string _filename;
+    long dimension_;
+    std::vector<double> vec_;
+    std::string filename_;
 
-    Matrix(std::string filename) : _filename(filename){};
+    Matrix(std::string t_filename) : filename_(t_filename){};
 
     static const Matrix *create(
-        Matrix::Type type,
-        Matrix::InputType fileType,
-        std::string filename
+        Matrix::Type t_matrixtype,
+        Matrix::FileType t_filetype,
+        std::string t_filename
     );
 
     // for initialization; must be non-pure virtual functions!

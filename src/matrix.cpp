@@ -1,6 +1,6 @@
 #include "matrix.h"
 
-const Matrix *Matrix::create(Matrix::Type type, Matrix::InputType fileType, std::string filename)
+const Matrix *Matrix::create(Matrix::Type type, Matrix::FileType fileType, std::string filename)
 {
     switch (fileType)
     {
@@ -15,12 +15,12 @@ const Matrix *Matrix::create(Matrix::Type type, Matrix::InputType fileType, std:
 
 long Matrix::getDimension() const
 {
-    return dimension;
+    return dimension_;
 }
 
 int LinearMatrix::indexOf(int i, int j) const
 {
-    return i * dimension + j;
+    return i * dimension_ + j;
 }
 
 int ColMajorMatrix::indexOf(int i, int j) const
@@ -32,7 +32,7 @@ int ColMajorMatrix::indexOf(int i, int j) const
 
 long Matrix::getSize() const
 {
-    return dimension * dimension;
+    return dimension_ * dimension_;
 }
 
 long LinearMatrix::getSize(int N) const
@@ -50,8 +50,8 @@ double Matrix::valueAt(int row, int col) const
     if (row == col)
         return 0;
     int indexOf = this->indexOf(row, col);
-    if (indexOf > -1 && indexOf < this->vec.size())
-        return this->vec.at(indexOf);
+    if (indexOf > -1 && indexOf < this->vec_.size())
+        return this->vec_.at(indexOf);
     return -1;
 }
 
@@ -67,10 +67,10 @@ bool ColMajorMatrix::store(int row, int col) const
 
 void Matrix::print() const
 {
-    std::cout << "Dimension: " << this->dimension << std::endl;
-    for (int col = 0; col < this->dimension; ++col)
+    std::cout << "Dimension: " << this->dimension_ << std::endl;
+    for (int col = 0; col < this->dimension_; ++col)
     {
-        for (int row = 0; row < this->dimension; ++row)
+        for (int row = 0; row < this->dimension_; ++row)
         {
             std::cout << "[" << row << "," << col << "]:" << this->valueAt(row, col) << " ";
         }
@@ -99,9 +99,9 @@ const Matrix *Matrix::createFromCsv(Matrix::Type type, std::string filename)
 
     rapidcsv::Document doc(filename, rapidcsv::LabelParams(-1, -1));
     long N = doc.GetRowCount();
-    matrix->dimension = N;
+    matrix->dimension_ = N;
     long size = matrix->getSize(N);
-    matrix->vec.reserve(size);
+    matrix->vec_.reserve(size);
 
     for (int i = 0; i < N; i++)
     {
@@ -109,10 +109,9 @@ const Matrix *Matrix::createFromCsv(Matrix::Type type, std::string filename)
         {
             if (i != j)
             {
-                double dist = dist_fn(&doc, i, j);
                 if (matrix->store(i, j))
                 {
-                    matrix->vec.push_back(dist);
+                    matrix->vec_.push_back(dist_fn(&doc, i, j));
                 }
             }
         }
@@ -160,9 +159,9 @@ const Matrix *Matrix::createFromDist(Matrix::Type type, std::string filename)
         exit(1);
     }
 
-    matrix->dimension = N;
+    matrix->dimension_ = N;
     long size = matrix->getSize(N);
-    matrix->vec.reserve(size);
+    matrix->vec_.reserve(size);
     std::string in;
     for (int col = 0; col < N; ++col)
     {
@@ -177,11 +176,10 @@ const Matrix *Matrix::createFromDist(Matrix::Type type, std::string filename)
 
             // read next token as string
             inFile >> in;
-            double value = atof(in.c_str());
 
             if (matrix->store(row, col))
             {
-                matrix->vec.push_back(value);
+                matrix->vec_.push_back(atof(in.c_str()));
             }
         }
     }

@@ -38,13 +38,13 @@ int main(int argc, char *const argv[])
     }
     std::string in_filename_str = argv[2];
 
-    Matrix::InputType in_filetype;
+    Matrix::FileType in_filetype;
     {
         std::string in_filetype_str = argv[1];
         if (in_filetype_str.compare("dist") == 0)
-            in_filetype = Matrix::InputType::DIST;
+            in_filetype = Matrix::FileType::DIST;
         else if (in_filetype_str.compare("csv") == 0)
-            in_filetype = Matrix::InputType::CSV;
+            in_filetype = Matrix::FileType::CSV;
         else
         {
             usage(argv[0]);
