@@ -96,8 +96,23 @@ int main(int argc, char *const argv[])
     std::cout << "Parsing of file '" << input_file << "' took " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms." << std::endl
               << "Matrix size is " << matrix->getSize() * sizeof(double) / 1000.0 / 1000.0 << " MB." << std::endl;
 
-    for (int type = SlinkExecutors::type::SEQUENTIAL;  type <= SlinkExecutors::type::PARALLEL_SPLIT_OMP; type++) {
-        execute_wrapper(matrix, num_threads, static_cast<SlinkExecutors::type>(type));
+    if (argc > 5)
+    {
+        int execution_type = std::stoi(std::string(argv[5]));
+        if (execution_type <= SlinkExecutors::type::PARALLEL_SPLIT_OMP && execution_type >= SlinkExecutors::type::SEQUENTIAL)
+        {
+            execute_wrapper(matrix, num_threads, static_cast<SlinkExecutors::type>(execution_type));
+        }
+        else
+        {
+            usage(argv[0]);
+            std::cerr << "ERROR: invalid execution type. Execution type must be an integer between " << SlinkExecutors::type::SEQUENTIAL << " and " << SlinkExecutors::type::PARALLEL_SPLIT_OMP << std::endl;
+            exit(1);
+        }
+    } else {
+        for (int type = SlinkExecutors::type::SEQUENTIAL;  type <= SlinkExecutors::type::PARALLEL_SPLIT_OMP; type++) {
+            execute_wrapper(matrix, num_threads, static_cast<SlinkExecutors::type>(type));
+        }
     }
 
     delete matrix;
