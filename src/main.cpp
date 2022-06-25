@@ -3,8 +3,7 @@
 #include <vector>
 #include <string>
 
-#include "matrix.h"
-#include "slink.h"
+#include "slink_executors.h"
 
 /// TO OVERRIDE
 double distance_function(const rapidcsv::Document *doc, int row1, int row2) 
@@ -27,13 +26,13 @@ inline void usage(std::string name)
     std::cout << "Usage: " << name << " <file-type> <file-input> [<matrix-type> <num-threads>]" << std::endl;
 }
 
-void execute(const Matrix *matrix, int num_threads, Slink::ExecType executionType)
+void execute_wrapper(const Matrix *matrix, int num_threads, SlinkExecutors::type executionType)
 {
     std::cout << std::endl;
-    std::cout << Slink::executionTypeToString(executionType) << std::endl;
+    std::cout << SlinkExecutors::execution_type_to_string(executionType) << std::endl;
 
     auto begin = std::chrono::high_resolution_clock::now();
-    const Slink *slink = Slink::execute(matrix, num_threads, executionType);
+    const Slink *slink = SlinkExecutors::execute(matrix, num_threads, executionType);
     auto end = std::chrono::high_resolution_clock::now();
 
     if (matrix->getDimension() < 20)
@@ -97,12 +96,24 @@ int main(int argc, char *const argv[])
     std::cout << "Parsing of file '" << input_file << "' took " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms." << std::endl
               << "Matrix size is " << matrix->getSize() * sizeof(double) / 1000.0 / 1000.0 << " MB." << std::endl;
 
-    execute(matrix, num_threads, Slink::ExecType::SEQUENTIAL);
-    //execute(matrix, num_threads, Slink::ExecType::PARALLEL_OMP);
-
-    //execute(matrix, num_threads, Slink::ExecType::SEQUENTIAL_SPLIT);
-    //execute(matrix, num_threads, Slink::ExecType::PARALLEL_SPLIT);
-    execute(matrix, num_threads, Slink::ExecType::PARALLEL_SPLIT_OMP);
+    if (argc > 5)
+    {
+        int execution_type = std::stoi(std::string(argv[5]));
+        if (execution_type <= SlinkExecutors::type::PARALLEL_SPLIT_OMP && execution_type >= SlinkExecutors::type::SEQUENTIAL)
+        {
+            execute_wrapper(matrix, num_threads, static_cast<SlinkExecutors::type>(execution_type));
+        }
+        else
+        {
+            usage(argv[0]);
+            std::cerr << "ERROR: invalid execution type. Execution type must be an integer between " << SlinkExecutors::type::SEQUENTIAL << " and " << SlinkExecutors::type::PARALLEL_SPLIT_OMP << std::endl;
+            exit(1);
+        }
+    } else {
+        for (int type = SlinkExecutors::type::SEQUENTIAL;  type <= SlinkExecutors::type::PARALLEL_SPLIT_OMP; type++) {
+            execute_wrapper(matrix, num_threads, static_cast<SlinkExecutors::type>(type));
+        }
+    }
 
     delete matrix;
 
