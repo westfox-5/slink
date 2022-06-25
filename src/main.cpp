@@ -84,22 +84,27 @@ int main(int argc, char *const argv[])
             << "Matrix size is " << matrix->getSize() * sizeof(double) / 1000.0 / 1000.0 << " MB." << std::endl;
     if (argc > 5)
     {
-        int execution_type = std::stoi(std::string(argv[5]));
-        if (execution_type <= SlinkExecutors::type::PARALLEL_SPLIT_OMP && execution_type >= SlinkExecutors::type::SEQUENTIAL)
-        {
-            execute_wrapper(matrix, num_threads, static_cast<SlinkExecutors::type>(execution_type));
-        }
-        else if (execution_type == -1) 
-        {
-            for (int type = SlinkExecutors::type::SEQUENTIAL;  type <= SlinkExecutors::type::PARALLEL_SPLIT_OMP; type++) {
-                execute_wrapper(matrix, num_threads, static_cast<SlinkExecutors::type>(type));
+        std::vector<std::string> in_exectypes_str = split(std::string(argv[5]), ',');
+        for (std::string exectype_str: in_exectypes_str) {
+            int execution_type = std::stoi(exectype_str);
+            if (execution_type <= SlinkExecutors::type::PARALLEL_SPLIT_OMP && execution_type >= SlinkExecutors::type::SEQUENTIAL)
+            {
+                execute_wrapper(matrix, num_threads, static_cast<SlinkExecutors::type>(execution_type));
             }
-        }
-        else 
-        {
-            usage(argv[0]);
-            std::cerr << "ERROR: invalid execution type. Execution type must be an integer between " << SlinkExecutors::type::SEQUENTIAL << " and " << SlinkExecutors::type::PARALLEL_SPLIT_OMP << std::endl;
-            exit(1);
+            else if (execution_type == -1) 
+            {
+                for (int type = SlinkExecutors::type::SEQUENTIAL;  type <= SlinkExecutors::type::PARALLEL_SPLIT_OMP; type++) {
+                    execute_wrapper(matrix, num_threads, static_cast<SlinkExecutors::type>(type));
+                }
+            }
+            else 
+            {
+                usage(argv[0]);
+                std::cerr << "ERROR: invalid execution type. Execution type must be an integer between " << SlinkExecutors::type::SEQUENTIAL << " and " << SlinkExecutors::type::PARALLEL_SPLIT_OMP << std::endl;
+                exit(1);
+            }
+
+
         }
     }
 

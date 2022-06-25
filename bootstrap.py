@@ -14,7 +14,7 @@ FILE_TYPE = "dist"
 MATRIX_TYPE = "linear"
 NUM_THREADS = 1
 EXE_NAME = "./slink"
-EXECUTION_TYPE = -1
+EXECUTION_TYPE = "-1"
 DO_PERF = False
 
 LOG_PREFIX = " > "
@@ -32,7 +32,7 @@ def print_help():
     print("   -n --num-threads <N>                      specify number of threads for the parallel execution")
     print("   -m --matrix-type <linear, col_major>      specify type of matrix to store data")
     print("   -t --file-type <dist, csv>                forces the execution with the specified file type")
-    print("   -e --execution-type <0..3>                executes a specific execution policy (0=sequential, 1=parallel OMP, 2=parallel split, 3=parallel split OMP)")
+    print("   -e --execution-type <0,..,3>              executes a specific execution policy (0=sequential, 1=parallel OMP, 2=parallel split, 3=parallel split OMP)")
     print("   -p --perf                                 enables execution with 'perf' tool")
 
 

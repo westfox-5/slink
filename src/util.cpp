@@ -63,3 +63,16 @@ bool endsWith(std::string& str, std::string suffix)
 {
     return str.size() >= suffix.size() && 0 == str.compare(str.size()-suffix.size(), suffix.size(), suffix);
 }
+
+std::vector<std::string> split(std::string str, char delim)
+{
+    std::vector<std::string> v;
+    std::stringstream ss(str);
+ 
+    while (ss.good()) {
+        std::string substr;
+        std::getline(ss, substr, delim);
+        v.push_back(substr);
+    }
+    return v;
+}
