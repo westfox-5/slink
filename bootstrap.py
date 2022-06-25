@@ -77,7 +77,6 @@ def run_file(inFile):
     global FILE_TYPE
     global EXECUTION_TYPE
 
-    # cmd = f"perf stat -d {EXE_NAME} {FILE_TYPE} {inFile} {NUM_THREADS}"
     cmd = f"perf stat -d -r 10 {EXE_NAME} {FILE_TYPE} {inFile} {MATRIX_TYPE} {NUM_THREADS} {EXECUTION_TYPE}"
     log(f"{LOG_PREFIX}{cmd}")
     process = subprocess.Popen(shlex.split(cmd))
@@ -91,8 +90,6 @@ def create_distance_matrix(outFilePath, N=2, min=0.1, max=5):
         log(f"file {outFilePath} already exists")
         return
 
-    # random.seed(1337)
-    # m = [[round(random.uniform(min, max), 1) if r<c else 0 for c in range(0, N, 1)] for r in range(0, N, 1)]
     m = np.random.rand(N, N) * (max - min) + min
 
     m_symm = (m + m.T)/2
