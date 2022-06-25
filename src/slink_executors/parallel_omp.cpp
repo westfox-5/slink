@@ -7,7 +7,6 @@ const Slink* SlinkExecutors::ParallelOMP::execute(const Matrix *matrix, int num_
     std::vector<double> M;
     int size = matrix->getDimension();
 
-    #pragma omp parallel for num_threads(num_threads) schedule(dynamic, num_threads) ordered
     for (int n = 0; n < size; ++n)
     {
         // INIT
@@ -16,42 +15,38 @@ const Slink* SlinkExecutors::ParallelOMP::execute(const Matrix *matrix, int num_
         M.clear();
         M.reserve(n);
 
+        #pragma omp parallel for num_threads(num_threads) 
         for (int i = 0; i < n; ++i)
         {
             M[i] = matrix->valueAt(i, n);
         }
 
         // UPDATE
-        #pragma omp ordered
+        for (int i = 0; i < n; ++i)
         {
-            for (int i = 0; i < n; ++i)
-            {
-                double pi__value = pi[i];
-                double min_1 = std::min(M[pi__value], lambda[i]);
-                double min_2 = std::min(M[pi__value], M[i]);
+            double pi__value = pi[i];
+            double min_1 = std::min(M[pi__value], lambda[i]);
+            double min_2 = std::min(M[pi__value], M[i]);
 
-                if (lambda[i] >= M[i])
-                {
-                    M[pi__value] = min_1;
-                    lambda[i] = M[i];
-                    pi[i] = n;
-                }
-                else
-                {
-                    M[pi__value] = min_2;
-                }
+            if (lambda[i] >= M[i])
+            {
+                M[pi__value] = min_1;
+                lambda[i] = M[i];
+                pi[i] = n;
+            }
+            else
+            {
+                M[pi__value] = min_2;
             }
         }
     
         // FINALIZE
-        #pragma omp ordered
+        #pragma omp parallel for num_threads(num_threads)
+        for (int i = 0; i < n; ++i)
         {
-            for (int i = 0; i < n; ++i)
+            if (lambda[i] >= lambda[pi[i]])
             {
-                if (lambda[i] >= lambda[pi[i]])
-                {
-                    pi[i] = n;
-                }
+                pi[i] = n;
             }
         }
     }
