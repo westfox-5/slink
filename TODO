@@ -1,6 +1,0 @@
-[x] Aggiungere parametri al bootstrap:
-    - tipo matrice (opt, default column_major)
-    - n_thread
-    - force recreate out matrix
-    - random -> matrix dimension
-    - da file -> input file, nome/numero colonna, separatore (opt, default ',')
