@@ -14,7 +14,8 @@ FILE_TYPE = "dist"
 MATRIX_TYPE = "linear"
 NUM_THREADS = 1
 EXE_NAME = "./slink"
-EXECUTION_TYPE = 0
+EXECUTION_TYPE = -1
+DO_PERF = False
 
 LOG_PREFIX = " > "
 
@@ -32,7 +33,8 @@ def print_help():
     print("   -m --matrix-type <linear, col_major>      specify type of matrix to store data")
     print("   -t --file-type <dist, csv>                forces the execution with the specified file type")
     print("   -e --execution-type <0..3>                executes a specific execution policy (0=sequential, 1=parallel OMP, 2=parallel split, 3=parallel split OMP)")
-  
+    print("   -p --perf                                 enables execution with 'perf' tool")
+
 
 def print_header():
     print()
@@ -77,7 +79,8 @@ def run_file(inFile):
     global FILE_TYPE
     global EXECUTION_TYPE
 
-    cmd = f"perf stat -d -r 10 {EXE_NAME} {FILE_TYPE} {inFile} {MATRIX_TYPE} {NUM_THREADS} {EXECUTION_TYPE}"
+    perf_cmd = "perf stat -d -r 10"
+    cmd = f"{ f'{perf_cmd} ' if DO_PERF else ''}{EXE_NAME} {FILE_TYPE} {inFile} {MATRIX_TYPE} {NUM_THREADS} {EXECUTION_TYPE}"
     log(f"{LOG_PREFIX}{cmd}")
     process = subprocess.Popen(shlex.split(cmd))
     process.wait()
@@ -145,8 +148,8 @@ if __name__ == "__main__":
 
     options, remainder = None, None
     try:
-        options, remainder = getopt.getopt(sys.argv[1:], 'r:i:m:n:t:e:vfh',
-                                           ["random=", "input=", "matrix-type=", "num-threads=", "file-type=", "execution-type=", "verbose", "force", "help"])
+        options, remainder = getopt.getopt(sys.argv[1:], 'r:i:m:n:t:e:pvfh',
+                                           ["random=", "input=", "matrix-type=", "num-threads=", "file-type=", "execution-type=", "perf", "verbose", "force", "help"])
     except Exception:
         print_help()
         print_sep(f"ERROR: Invalid argument")
@@ -173,6 +176,8 @@ if __name__ == "__main__":
             FILE_TYPE = arg
         elif opt in ('-e', '--execution-type'):
             EXECUTION_TYPE = arg
+        elif opt in ('-p', '--perf'):
+            DO_PERF = True
         elif opt in ('-h', '--help'):
             print_help()
             exit(0)

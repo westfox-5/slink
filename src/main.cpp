@@ -79,9 +79,9 @@ int main(int argc, char *const argv[])
     const Matrix *matrix = Matrix::create(matrix_type, in_filetype, in_filename_str);
     auto end = std::chrono::high_resolution_clock::now();
 
-    std::cout << "Parsing of file '" << in_filename_str << "' took " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms." << std::endl
-              << "Matrix size is " << matrix->getSize() * sizeof(double) / 1000.0 / 1000.0 << " MB." << std::endl << std::endl;
-
+    std::cout << std::endl
+            << "Parsing of file '" << in_filename_str << "' took " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms." << std::endl
+            << "Matrix size is " << matrix->getSize() * sizeof(double) / 1000.0 / 1000.0 << " MB." << std::endl;
     if (argc > 5)
     {
         int execution_type = std::stoi(std::string(argv[5]));
@@ -89,15 +89,17 @@ int main(int argc, char *const argv[])
         {
             execute_wrapper(matrix, num_threads, static_cast<SlinkExecutors::type>(execution_type));
         }
-        else
+        else if (execution_type == -1) 
+        {
+            for (int type = SlinkExecutors::type::SEQUENTIAL;  type <= SlinkExecutors::type::PARALLEL_SPLIT_OMP; type++) {
+                execute_wrapper(matrix, num_threads, static_cast<SlinkExecutors::type>(type));
+            }
+        }
+        else 
         {
             usage(argv[0]);
             std::cerr << "ERROR: invalid execution type. Execution type must be an integer between " << SlinkExecutors::type::SEQUENTIAL << " and " << SlinkExecutors::type::PARALLEL_SPLIT_OMP << std::endl;
             exit(1);
-        }
-    } else {
-        for (int type = SlinkExecutors::type::SEQUENTIAL;  type <= SlinkExecutors::type::PARALLEL_SPLIT_OMP; type++) {
-            execute_wrapper(matrix, num_threads, static_cast<SlinkExecutors::type>(type));
         }
     }
 
