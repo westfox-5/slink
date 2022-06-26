@@ -1,0 +1,219 @@
+g++ -fopenmp --std=c++17 -O3 src/*.cpp src/slink_executors/*.cpp -o slink
+
+Parsing of file './5000.in' took 2760 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 206433 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2710 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 235633 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2729 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 200625 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2702 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 194933 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2723 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 225458 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2735 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 201886 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2695 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 191123 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2706 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 196017 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2722 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 196416 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2668 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 205403 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2699 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 198451 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 3077 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 199126 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2693 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 199761 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2727 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 198384 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2657 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 263558 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2744 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 198107 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2664 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 194614 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2659 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 187950 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2653 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 191105 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2699 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 194363 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2683 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 195467 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2682 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 205569 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2694 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 189497 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2720 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 196503 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 3071 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 202642 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2697 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 195279 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2703 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 195467 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2696 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 216727 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2704 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 191752 μs.
+	Check value: 18078240.000
+
+Parsing of file './5000.in' took 2694 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT)
+	Time: 198230 μs.
+	Check value: 18078240.000
+
+   $$$$$$\  $$\       $$$$$$\ $$\   $$\ $$\   $$\ 
+   $$  __$$\ $$ |      \_$$  _|$$$\  $$ |$$ | $$  |
+   $$ /  \__|$$ |        $$ |  $$$$\ $$ |$$ |$$  / 
+   \$$$$$$\  $$ |        $$ |  $$ $$\$$ |$$$$$  /  
+    \____$$\ $$ |        $$ |  $$ \$$$$ |$$  $$<   
+   $$\   $$ |$$ |        $$ |  $$ |\$$$ |$$ |\$$\  
+   \$$$$$$  |$$$$$$$$\ $$$$$$\ $$ | \$$ |$$ | \$$\ 
+    \______/ \________|\______|\__|  \__|\__|  \__|
+
+ A Single Linkage Hierarchical Clustering algorithm
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ > CREATE MATRIX ./5000.in
+file ./5000.in already exists
+
+ > COMPILE
+ > make
+
+ > EXECUTE
+ > perf stat -d -r 30 ./slink dist ./5000.in linear 2 2
+
+Performance counter stats for './slink dist ./5000.in linear 2 2' (30 runs):
+
+          2,951.66 msec task-clock                #    1.007 CPUs utilized            ( +-  0.61% )
+                49      context-switches          #    0.017 K/sec                    ( +- 19.23% )
+                 1      cpu-migrations            #    0.000 K/sec                    ( +- 21.62% )
+               888      page-faults               #    0.301 K/sec                    ( +-  5.15% )
+    12,673,541,733      cycles                    #    4.294 GHz                      ( +-  0.61% )  (49.92%)
+    27,919,255,489      instructions              #    2.20  insn per cycle           ( +-  0.05% )  (62.40%)
+     5,999,855,584      branches                  # 2032.703 M/sec                    ( +-  0.05% )  (62.39%)
+        25,719,470      branch-misses             #    0.43% of all branches          ( +-  4.04% )  (62.44%)
+     7,153,271,523      L1-dcache-loads           # 2423.471 M/sec                    ( +-  0.06% )  (62.54%)
+        30,480,985      L1-dcache-load-misses     #    0.43% of all L1-dcache accesses  ( +-  1.28% )  (62.61%)
+         6,844,193      LLC-loads                 #    2.319 M/sec                    ( +-  1.69% )  (50.10%)
+         4,361,557      LLC-load-misses           #   63.73% of all LL-cache accesses  ( +-  1.20% )  (50.01%)
+
+            2.9300 +- 0.0180 seconds time elapsed  ( +-  0.62% )
