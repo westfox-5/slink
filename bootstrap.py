@@ -79,7 +79,7 @@ def run_file(inFile):
     global FILE_TYPE
     global EXECUTION_TYPE
 
-    perf_cmd = "perf stat -d -r 10"
+    perf_cmd = "perf stat -d -r 25"
     cmd = f"{ f'{perf_cmd} ' if DO_PERF else ''}{EXE_NAME} {FILE_TYPE} {inFile} {MATRIX_TYPE} {NUM_THREADS} {EXECUTION_TYPE}"
     log(f"{LOG_PREFIX}{cmd}")
     process = subprocess.Popen(shlex.split(cmd))
