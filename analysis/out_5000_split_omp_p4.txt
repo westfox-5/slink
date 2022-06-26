@@ -1,0 +1,219 @@
+g++ -fopenmp --std=c++17 -O3 src/*.cpp src/slink_executors/*.cpp -o slink
+
+Parsing of file './5000.in' took 2701 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 15011761 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2671 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 14568582 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2653 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 14665788 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2681 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 14581006 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2674 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 14658817 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2671 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 14466768 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2695 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 14453613 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2638 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 14499392 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2650 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 14244589 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2555 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13606864 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2541 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13703136 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2620 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13859762 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2604 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13840739 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2581 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13881728 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2574 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 14050425 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2579 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13911305 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2603 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 14065919 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2531 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13560421 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2528 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13647819 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2529 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13506655 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2547 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13518546 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2529 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13486970 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2540 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13471067 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2541 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13559135 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2530 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13501978 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2541 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13566215 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2537 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13574074 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2564 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13611564 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2552 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13461751 μs.
+	Check value: 23254151.100
+
+Parsing of file './5000.in' took 2524 ms.
+Matrix size is 200 MB.
+Parallel (SPLIT-OMP)
+	Time: 13586119 μs.
+	Check value: 23254151.100
+
+   $$$$$$\  $$\       $$$$$$\ $$\   $$\ $$\   $$\ 
+   $$  __$$\ $$ |      \_$$  _|$$$\  $$ |$$ | $$  |
+   $$ /  \__|$$ |        $$ |  $$$$\ $$ |$$ |$$  / 
+   \$$$$$$\  $$ |        $$ |  $$ $$\$$ |$$$$$  /  
+    \____$$\ $$ |        $$ |  $$ \$$$$ |$$  $$<   
+   $$\   $$ |$$ |        $$ |  $$ |\$$$ |$$ |\$$\  
+   \$$$$$$  |$$$$$$$$\ $$$$$$\ $$ | \$$ |$$ | \$$\ 
+    \______/ \________|\______|\__|  \__|\__|  \__|
+
+ A Single Linkage Hierarchical Clustering algorithm
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ > CREATE MATRIX ./5000.in
+file ./5000.in already exists
+
+ > COMPILE
+ > make
+
+ > EXECUTE
+ > perf stat -d -r 30 ./slink dist ./5000.in linear 4 3
+
+ Performance counter stats for './slink dist ./5000.in linear 4 3' (30 runs):
+
+         16,714.39 msec task-clock                #    1.011 CPUs utilized            ( +-  0.81% )
+               188      context-switches          #    0.011 K/sec                    ( +- 21.92% )
+                 8      cpu-migrations            #    0.000 K/sec                    ( +- 49.93% )
+             5,631      page-faults               #    0.337 K/sec                    ( +-  0.77% )
+    73,905,322,998      cycles                    #    4.422 GHz                      ( +-  0.53% )  (49.97%)
+   143,436,371,035      instructions              #    1.94  insn per cycle           ( +-  0.08% )  (62.48%)
+    42,757,221,253      branches                  # 2558.109 M/sec                    ( +-  0.07% )  (62.47%)
+        53,172,384      branch-misses             #    0.12% of all branches          ( +-  0.85% )  (62.46%)
+    33,572,859,527      L1-dcache-loads           # 2008.620 M/sec                    ( +-  0.13% )  (62.50%)
+       293,278,500      L1-dcache-load-misses     #    0.87% of all L1-dcache accesses  ( +-  0.44% )  (62.54%)
+        65,163,168      LLC-loads                 #    3.899 M/sec                    ( +-  1.10% )  (50.03%)
+        12,952,398      LLC-load-misses           #   19.88% of all LL-cache accesses  ( +-  7.18% )  (50.01%)
+
+           16.5300 +- 0.0952 seconds time elapsed  ( +-  0.58% )
