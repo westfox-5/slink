@@ -1,7 +1,11 @@
 # High Performance Computing Project Report
+
 **date**: *27/06/2022*
+
 **course code**: *CM0227*
+
 **reference professor**: *Claudio Lucchese*
+
 **authors**: *Volpe Davide (862989), Sello Stefano (864851)*
 
 ## Introduction
