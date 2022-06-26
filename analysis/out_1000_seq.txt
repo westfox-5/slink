@@ -1,0 +1,220 @@
+g++ -fopenmp --std=c++17 -O3 src/*.cpp src/slink_executors/*.cpp -o slink
+
+Parsing of file './1000.in' took 109 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3558 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 105 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3575 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 103 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3516 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 109 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3673 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 114 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3683 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 107 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3621 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 104 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3443 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3520 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3759 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 103 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3581 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 104 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3532 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 105 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3604 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 104 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3971 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 103 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3526 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 104 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3443 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 103 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3460 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 104 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3580 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 104 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3547 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 104 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3561 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 104 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3550 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 106 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3671 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 105 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3552 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 105 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3565 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 105 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3593 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 103 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3382 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3448 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 103 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3597 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 106 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3596 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 104 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3563 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 105 ms.
+Matrix size is 8 MB.
+Sequential
+	Time: 3596 μs.
+	Check value: 957439.300
+
+   $$$$$$\  $$\       $$$$$$\ $$\   $$\ $$\   $$\ 
+   $$  __$$\ $$ |      \_$$  _|$$$\  $$ |$$ | $$  |
+   $$ /  \__|$$ |        $$ |  $$$$\ $$ |$$ |$$  / 
+   \$$$$$$\  $$ |        $$ |  $$ $$\$$ |$$$$$  /  
+    \____$$\ $$ |        $$ |  $$ \$$$$ |$$  $$<   
+   $$\   $$ |$$ |        $$ |  $$ |\$$$ |$$ |\$$\  
+   \$$$$$$  |$$$$$$$$\ $$$$$$\ $$ | \$$ |$$ | \$$\ 
+    \______/ \________|\______|\__|  \__|\__|  \__|
+
+ A Single Linkage Hierarchical Clustering algorithm
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ > CREATE MATRIX ./1000.in
+file ./1000.in already exists
+
+ > COMPILE
+ > make
+
+ > EXECUTE
+ > perf stat -d -r 30 ./slink dist ./1000.in linear 1 0
+
+ Performance counter stats for './slink dist ./1000.in linear 1 0' (30 runs):
+
+            109.76 msec task-clock                #    0.997 CPUs utilized            ( +-  0.41% )
+                 0      context-switches          #    0.004 K/sec                    ( +- 22.74% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               701      page-faults               #    0.006 M/sec                    ( +-  5.43% )
+       475,614,641      cycles                    #    4.333 GHz                      ( +-  0.31% )  (45.66%)
+     1,101,086,475      instructions              #    2.32  insn per cycle           ( +-  0.18% )  (60.24%)
+       233,270,909      branches                  # 2125.342 M/sec                    ( +-  0.17% )  (63.76%)
+           806,740      branch-misses             #    0.35% of all branches          ( +-  0.95% )  (66.43%)
+       282,193,917      L1-dcache-loads           # 2571.082 M/sec                    ( +-  0.09% )  (67.00%)
+         1,456,977      L1-dcache-load-misses     #    0.52% of all L1-dcache accesses  ( +-  1.78% )  (65.39%)
+           143,155      LLC-loads                 #    1.304 M/sec                    ( +-  2.55% )  (47.25%)
+            42,473      LLC-load-misses           #   29.67% of all LL-cache accesses  ( +-  7.90% )  (44.50%)
+
+          0.110033 +- 0.000445 seconds time elapsed  ( +-  0.40% )
+

@@ -1,0 +1,220 @@
+g++ -fopenmp --std=c++17 -O3 src/*.cpp src/slink_executors/*.cpp -o slink
+
+Parsing of file './1000.in' took 103 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4261 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 101 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4339 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 101 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4366 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4299 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4272 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4396 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4323 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4278 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4349 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 101 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4317 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 101 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4368 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 101 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4365 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 101 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4319 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 104 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4404 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 103 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4311 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 100 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4314 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4311 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4385 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4298 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 101 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4328 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 101 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4265 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 101 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4334 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 100 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4365 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 102 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4347 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 103 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4239 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 103 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4269 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 101 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4338 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 103 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4280 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 104 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4322 μs.
+	Check value: 957439.300
+
+Parsing of file './1000.in' took 103 ms.
+Matrix size is 8 MB.
+Parallel (OMP)
+	Time: 4293 μs.
+	Check value: 957439.300
+
+   $$$$$$\  $$\       $$$$$$\ $$\   $$\ $$\   $$\ 
+   $$  __$$\ $$ |      \_$$  _|$$$\  $$ |$$ | $$  |
+   $$ /  \__|$$ |        $$ |  $$$$\ $$ |$$ |$$  / 
+   \$$$$$$\  $$ |        $$ |  $$ $$\$$ |$$$$$  /  
+    \____$$\ $$ |        $$ |  $$ \$$$$ |$$  $$<   
+   $$\   $$ |$$ |        $$ |  $$ |\$$$ |$$ |\$$\  
+   \$$$$$$  |$$$$$$$$\ $$$$$$\ $$ | \$$ |$$ | \$$\ 
+    \______/ \________|\______|\__|  \__|\__|  \__|
+
+ A Single Linkage Hierarchical Clustering algorithm
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ > CREATE MATRIX ./1000.in
+file ./1000.in already exists
+
+ > COMPILE
+ > make
+
+ > EXECUTE
+ > perf stat -d -r 30 ./slink dist ./1000.in linear 8 1
+
+ Performance counter stats for './slink dist ./1000.in linear 8 1' (30 runs):
+
+            137.88 msec task-clock                #    1.275 CPUs utilized            ( +-  0.16% )
+                 1      context-switches          #    0.010 K/sec                    ( +- 16.26% )
+                 0      cpu-migrations            #    0.000 K/sec                    ( +- 69.48% )
+               685      page-faults               #    0.005 M/sec                    ( +-  4.71% )
+       609,779,623      cycles                    #    4.423 GHz                      ( +-  0.10% )  (36.28%)
+     1,398,932,608      instructions              #    2.29  insn per cycle           ( +-  0.98% )  (48.92%)
+       237,116,744      branches                  # 1719.727 M/sec                    ( +-  1.76% )  (64.73%)
+           811,972      branch-misses             #    0.34% of all branches          ( +-  0.18% )  (73.56%)
+       257,161,388      L1-dcache-loads           # 1865.104 M/sec                    ( +-  0.08% )  (73.89%)
+         1,809,674      L1-dcache-load-misses     #    0.70% of all L1-dcache accesses  ( +-  1.05% )  (72.43%)
+           289,451      LLC-loads                 #    2.099 M/sec                    ( +-  9.21% )  (43.97%)
+            43,650      LLC-load-misses           #   15.08% of all LL-cache accesses  ( +-  0.88% )  (35.14%)
+
+          0.108171 +- 0.000230 seconds time elapsed  ( +-  0.21% )
+

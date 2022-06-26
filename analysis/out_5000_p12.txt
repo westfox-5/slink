@@ -1,0 +1,220 @@
+g++ -fopenmp --std=c++17 -O3 src/*.cpp src/slink_executors/*.cpp -o slink
+
+Parsing of file './5000.in' took 2680 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 131612 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2648 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 61573 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2627 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 78137 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2635 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 68837 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2715 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 131115 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2713 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 73120 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2722 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 105185 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2692 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 73891 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2645 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 1231388 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2666 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 73025 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2649 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 71283 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2667 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 615959 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2681 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 67525 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2660 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 342462 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2681 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 69444 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2655 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 147399 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2660 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 114707 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2652 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 62820 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2656 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 68040 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2651 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 86246 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2657 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 62174 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2666 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 59814 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2657 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 97037 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 3032 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 66531 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2642 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 90999 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2644 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 60922 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2647 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 61263 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2659 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 109368 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2715 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 105925 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2672 ms.
+Matrix size is 200 MB.
+Parallel (OMP)
+	Time: 133884 μs.
+	Check value: 23855392.100
+
+   $$$$$$\  $$\       $$$$$$\ $$\   $$\ $$\   $$\ 
+   $$  __$$\ $$ |      \_$$  _|$$$\  $$ |$$ | $$  |
+   $$ /  \__|$$ |        $$ |  $$$$\ $$ |$$ |$$  / 
+   \$$$$$$\  $$ |        $$ |  $$ $$\$$ |$$$$$  /  
+    \____$$\ $$ |        $$ |  $$ \$$$$ |$$  $$<   
+   $$\   $$ |$$ |        $$ |  $$ |\$$$ |$$ |\$$\  
+   \$$$$$$  |$$$$$$$$\ $$$$$$\ $$ | \$$ |$$ | \$$\ 
+    \______/ \________|\______|\__|  \__|\__|  \__|
+
+ A Single Linkage Hierarchical Clustering algorithm
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ > CREATE MATRIX ./5000.in
+created matrix
+start file writing
+
+ > COMPILE
+ > make
+
+ > EXECUTE
+ > perf stat -d -r 30 ./slink dist ./5000.in linear 12 1
+
+ Performance counter stats for './slink dist ./5000.in linear 12 1' (30 runs):
+
+          4,033.23 msec task-clock                #    1.425 CPUs utilized            ( +-  6.69% )
+               630      context-switches          #    0.156 K/sec                    ( +- 15.67% )
+                10      cpu-migrations            #    0.003 K/sec                    ( +- 36.30% )
+               927      page-faults               #    0.230 K/sec                    ( +-  4.69% )
+    17,310,350,439      cycles                    #    4.292 GHz                      ( +-  6.69% )  (49.77%)
+    27,620,918,776      instructions              #    1.60  insn per cycle           ( +-  0.27% )  (62.32%)
+     5,864,297,934      branches                  # 1453.994 M/sec                    ( +-  0.31% )  (62.46%)
+        20,210,406      branch-misses             #    0.34% of all branches          ( +-  3.68% )  (62.65%)
+     7,063,231,051      L1-dcache-loads           # 1751.258 M/sec                    ( +-  0.22% )  (62.75%)
+        37,836,785      L1-dcache-load-misses     #    0.54% of all L1-dcache accesses  ( +-  0.78% )  (62.68%)
+         4,782,723      LLC-loads                 #    1.186 M/sec                    ( +-  1.85% )  (49.92%)
+         1,583,769      LLC-load-misses           #   33.11% of all LL-cache accesses  ( +-  0.93% )  (49.78%)
+
+            2.8313 +- 0.0429 seconds time elapsed  ( +-  1.51% )

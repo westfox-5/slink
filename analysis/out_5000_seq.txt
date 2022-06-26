@@ -1,0 +1,219 @@
+g++ -fopenmp --std=c++17 -O3 src/*.cpp src/slink_executors/*.cpp -o slink
+
+Parsing of file './5000.in' took 3031 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 109612 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2652 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 110098 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2668 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 110847 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2692 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 110528 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2668 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 112201 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2704 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 110493 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2680 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 110143 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2640 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 112162 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2637 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 111815 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2653 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 110576 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2643 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 110335 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2712 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 109772 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2660 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 110736 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2643 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 112131 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2646 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 113618 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2639 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 111218 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2669 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 116265 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 3021 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 109593 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2630 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 111709 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2647 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 117654 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2631 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 110159 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2646 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 110487 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2649 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 111825 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2646 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 111320 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2650 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 112841 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2644 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 111011 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2653 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 111161 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2726 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 113445 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2684 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 111384 μs.
+	Check value: 23855392.100
+
+Parsing of file './5000.in' took 2657 ms.
+Matrix size is 200 MB.
+Sequential
+	Time: 111366 μs.
+	Check value: 23855392.100
+
+   $$$$$$\  $$\       $$$$$$\ $$\   $$\ $$\   $$\ 
+   $$  __$$\ $$ |      \_$$  _|$$$\  $$ |$$ | $$  |
+   $$ /  \__|$$ |        $$ |  $$$$\ $$ |$$ |$$  / 
+   \$$$$$$\  $$ |        $$ |  $$ $$\$$ |$$$$$  /  
+    \____$$\ $$ |        $$ |  $$ \$$$$ |$$  $$<   
+   $$\   $$ |$$ |        $$ |  $$ |\$$$ |$$ |\$$\  
+   \$$$$$$  |$$$$$$$$\ $$$$$$\ $$ | \$$ |$$ | \$$\ 
+    \______/ \________|\______|\__|  \__|\__|  \__|
+
+ A Single Linkage Hierarchical Clustering algorithm
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ > CREATE MATRIX ./5000.in
+file ./5000.in already exists
+
+ > COMPILE
+ > make
+
+ > EXECUTE
+ > perf stat -d -r 30 ./slink dist ./5000.in linear 12 0
+
+ Performance counter stats for './slink dist ./5000.in linear 12 0' (30 runs):
+
+          2,795.98 msec task-clock                #    0.999 CPUs utilized            ( +-  0.62% )
+                61      context-switches          #    0.022 K/sec                    ( +- 30.58% )
+                 1      cpu-migrations            #    0.000 K/sec                    ( +- 16.61% )
+               801      page-faults               #    0.287 K/sec                    ( +-  5.86% )
+    12,006,954,321      cycles                    #    4.294 GHz                      ( +-  0.61% )  (49.91%)
+    27,274,298,965      instructions              #    2.27  insn per cycle           ( +-  0.02% )  (62.47%)
+     5,803,899,146      branches                  # 2075.803 M/sec                    ( +-  0.02% )  (62.51%)
+        21,746,477      branch-misses             #    0.37% of all branches          ( +-  4.74% )  (62.55%)
+     7,020,332,896      L1-dcache-loads           # 2510.868 M/sec                    ( +-  0.02% )  (62.60%)
+        32,957,969      L1-dcache-load-misses     #    0.47% of all L1-dcache accesses  ( +-  0.70% )  (62.58%)
+        10,688,240      LLC-loads                 #    3.823 M/sec                    ( +-  0.81% )  (49.96%)
+         1,612,549      LLC-load-misses           #   15.09% of all LL-cache accesses  ( +-  0.91% )  (49.90%)
+
+            2.7978 +- 0.0174 seconds time elapsed  ( +-  0.62% )
